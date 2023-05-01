@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Widget.NoteAppTheme.TextInputLayout.OutlinedBox" parent="Widget.Material3.TextInputLayout.OutlinedBox">
+        <item name="errorTextColor">?attr/colorError</item>
+        <item name="boxStrokeErrorColor">?attr/colorError</item>
+        <item name="errorIconTint">?attr/colorError</item>
+        <item name="errorIconDrawable">@drawable/ic_error</item>
+        <item name="helperTextTextAppearance">@style/TextAppearance.Material3.ActionBar.Subtitle</item>
+    </style>
+</resources>

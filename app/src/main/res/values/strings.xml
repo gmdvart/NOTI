@@ -1,0 +1,47 @@
+<resources>
+    <string name="app_name">NOTI</string>
+    <string name="lorem_ipsum">
+        &#009;Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas aliquet nisi vitae hendrerit vestibulum.
+        Sed
+        in purus nibh. Etiam eu lorem porta, pharetra ex ac, interdum nibh. Vestibulum nec mi mattis nisl sollicitudin
+        mattis vitae at turpis. Vestibulum orci eros, venenatis sit amet commodo ut, lacinia eget enim. Donec efficitur
+        auctor arcu, dapibus gravida metus feugiat id. Proin pharetra velit neque, vitae elementum ligula vestibulum in.
+        Pellentesque lobortis arcu ac lobortis bibendum.&#10;
+        &#009;Nulla non risus consectetur, semper eros ac, placerat libero. Vivamus est neque, mattis nec euismod quis,
+        semper
+        at nulla. Donec id commodo libero. Etiam finibus, velit non ullamcorper convallis, ex mauris ultricies diam, et
+        euismod nibh metus non sapien. Donec condimentum aliquet turpis, a blandit magna mattis at. In at dui aliquet,
+        egestas leo ut, interdum lorem. Donec facilisis nisi non purus suscipit, at placerat ipsum blandit.&#10;
+        &#009;Integer posuere posuere laoreet. Nam facilisis libero scelerisque, efficitur lorem sed, ornare sem.
+        Praesent ut
+        mauris tincidunt, dapibus nisi eu, accumsan tellus. Curabitur felis nisl, finibus non sapien eu, cursus
+        convallis orci. Ut sollicitudin facilisis interdum. In orci ipsum, fermentum molestie sagittis ac, ornare ut
+        quam. Duis elementum erat imperdiet turpis vestibulum, id aliquet dolor imperdiet. Nulla fermentum ligula at
+        tincidunt ultrices. Maecenas eget elementum erat. Aenean at faucibus orci, non tristique turpis. Duis ultrices
+        nisi vitae aliquet convallis. Nullam eu tristique quam. In rutrum turpis sed arcu consequat, in laoreet ex
+        facilisis. Aliquam mauris urna, tempus non porta vel, elementum pellentesque nunc. Praesent lorem leo, elementum
+        ac facilisis non, ultricies vitae ante.&#10;
+        &#009;Duis interdum arcu ac felis molestie, a maximus ex maximus. Phasellus ultricies in risus at ullamcorper.
+        Aliquam
+        purus urna, convallis id lectus vel, mattis viverra ligula. Curabitur sit amet cursus diam. Integer eu lorem
+        condimentum diam semper eleifend accumsan tincidunt lorem. Fusce non elit eget magna vestibulum bibendum vel
+        vitae ante. Cras nec tortor libero. Etiam auctor eros dignissim, elementum felis et, rhoncus est.&#10;
+        &#009;Proin ac imperdiet diam. In luctus orci mi, venenatis dignissim odio rhoncus non. Integer porta nulla
+        lectus, ut
+        pharetra ex faucibus sit amet. Sed lobortis mauris non faucibus elementum. Praesent porta accumsan tempus.
+        Nullam aliquet, tortor ut accumsan luctus, ex diam sodales orci, vitae convallis eros lacus eu lectus.
+        Vestibulum tellus mauris, efficitur in ligula non, ullamcorper accumsan purus. Sed lorem lacus, aliquet vitae
+        leo quis, tempor eleifend.
+    </string>
+    <string name="search">Search</string>
+    <string name="layout">Change Layout</string>
+    <string name="importance">Importance</string>
+    <string name="notification">Notification</string>
+    <string name="creation_date">Creation date</string>
+    <string name="filter_by">Filter by</string>
+    <string name="done">Done</string>
+    <string name="edit_title">Title…</string>
+    <string name="edit_description">Description…</string>
+    <string name="note_title">Note Title</string>
+    <string name="description">Description</string>
+</resources>

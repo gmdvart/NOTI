@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_margin="8dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content">
+            <ImageView
+                    android:id="@+id/note_indicator"
+                    android:src="@drawable/ic_importance"
+                    android:layout_width="16dp"
+                    android:layout_height="16dp"/>
+
+            <TextView
+                    android:id="@+id/note_notify_date"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textAlignment="textEnd"
+                    style="@style/TextAppearance.Material3.BodyMedium"
+                    tools:text="Notify on Wed, July 30"/>
+        </LinearLayout>
+
+        <Space android:layout_width="wrap_content" android:layout_height="8dp"/>
+        <TextView
+                android:id="@+id/note_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:lines="1"
+                android:maxEms="10"
+                android:ellipsize="end"
+                style="@style/TextAppearance.Material3.TitleLarge"
+                tools:text="Coding in Flow"/>
+
+        <Space android:layout_width="wrap_content" android:layout_height="8dp"/>
+        <TextView
+                android:id="@+id/note_description"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:maxLines="10"
+                android:ellipsize="end"
+                style="@style/TextAppearance.Material3.BodyMedium"
+                tools:text="@string/lorem_ipsum"/>
+
+        <Space android:layout_width="wrap_content" android:layout_height="12dp"/>
+        <TextView
+                android:id="@+id/note_creation_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/TextAppearance.MaterialComponents.Caption"
+                tools:text="Wed, July 10"/>
+    </LinearLayout>
+</com.google.android.material.card.MaterialCardView>
