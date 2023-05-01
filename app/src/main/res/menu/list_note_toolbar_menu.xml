@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android" xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-            android:id="@+id/search_item"
+            android:id="@+id/list_search_item"
             android:icon="@drawable/ic_search"
             android:title="@string/search"
             android:contentDescription="@string/search"
             app:showAsAction="always"/>
 
     <item
-            android:id="@+id/layout_item"
+            android:id="@+id/list_layout_item"
             android:icon="@drawable/ic_grid"
             android:title="@string/layout"
             android:contentDescription="@string/layout"
