@@ -2,7 +2,7 @@ package com.example.noteapplication;
 
 import android.os.Bundle;
 import android.view.*;
-import android.widget.Toast;
+import android.widget.*;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -13,15 +13,31 @@ import androidx.lifecycle.Lifecycle;
 import androidx.navigation.NavController;
 import androidx.navigation.NavDirections;
 import androidx.navigation.fragment.NavHostFragment;
+import com.example.noteapplication.constants.NotiTransactionDataKeys;
 import com.example.noteapplication.databinding.FragmentNoteEditBinding;
+import com.example.noteapplication.ui.DateSelectionIndexSaver;
+import com.example.noteapplication.ui.ImportanceSelectionAdapter;
+import com.example.noteapplication.utils.NotiUtils;
 import org.jetbrains.annotations.NotNull;
 
-public class NoteEditFragment extends Fragment implements MenuProvider {
+import java.util.Date;
+
+public class NoteEditFragment extends Fragment implements MenuProvider, NotificationDialogFragment.OnSubmitNotificationDateListener {
+    private static final String TAG = "NoteEditFragment";
+
     private FragmentNoteEditBinding _binding;
     public FragmentNoteEditBinding getBinding() {
         return _binding;
     }
+
     private NavController navController;
+    private NoteEditFragmentArgs navArgs;
+
+    // Note edit options
+    private String[] importanceSelectionList;
+    private Long notificationDateInMillis = 0L;
+    private String notificationDateString;
+    private DateSelectionIndexSaver dateSelection = new DateSelectionIndexSaver(0, 0, 0);
 
     @Override
     public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -31,6 +47,15 @@ public class NoteEditFragment extends Fragment implements MenuProvider {
                 .getSupportFragmentManager()
                 .findFragmentById(R.id.nav_host_fragment);
         navController = navHostFragment.getNavController();
+
+        importanceSelectionList = new String[] {
+            getString(R.string.importance_none),
+            getString(R.string.importance_low),
+            getString(R.string.importance_medium),
+            getString(R.string.importance_high)
+        };
+
+        notificationDateString = getString(R.string.notification_never);
 
         return _binding.getRoot();
     }
@@ -42,17 +67,64 @@ public class NoteEditFragment extends Fragment implements MenuProvider {
         ((MenuHost) requireActivity()).addMenuProvider(this, getViewLifecycleOwner(), Lifecycle.State.RESUMED);
         ((AppCompatActivity) requireActivity()).setSupportActionBar(_binding.editToolbar);
 
+        navArgs = NoteEditFragmentArgs.fromBundle(requireArguments());
+
         _binding.editToolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 onBackArrowClick();
             }
         });
+
+        setupImportanceOptions();
+        setupDateField();
     }
 
     private void onBackArrowClick() {
         NavDirections action = NoteEditFragmentDirections.actionNoteEditFragmentToNoteListFragment();
         navController.navigate(action);
+    }
+
+    private void setupImportanceOptions() {
+        AutoCompleteTextView importanceSelection = _binding.noteEditImportance;
+        ImportanceSelectionAdapter adapter = new ImportanceSelectionAdapter(requireContext(), importanceSelectionList);
+        importanceSelection.setAdapter(adapter);
+        importanceSelection.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                String importance = parent.getItemAtPosition(position).toString();
+                setImportanceIcon(importance);
+            }
+        });
+    }
+
+    private void setImportanceIcon(String importance) {
+        _binding.noteMenuItemIndicator
+                .setImageResource(NotiUtils.ImportanceSelection.getImageResourceForImportance(importance));
+    }
+
+    private void setupDateField() {
+        _binding.noteEditNotificationDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Bundle transactionData = getTransactionData();
+                NotificationDialogFragment dialog = new NotificationDialogFragment();
+                dialog.setArguments(transactionData);
+                dialog.show(requireActivity().getSupportFragmentManager(), "NotificationDialogFragment");
+            }
+        });
+    }
+
+    private Bundle getTransactionData() {
+        Bundle transactionData = new Bundle();
+        transactionData.putLong(NotiTransactionDataKeys.NOTIFICATION_SET_DATA_KEY, notificationDateInMillis);
+        if (notificationDateInMillis != 0) {
+            transactionData.putInt(NotiTransactionDataKeys.NOTIFICATION_DATE_SELECTION_KEY, dateSelection.getDateSelectionIndex());
+            transactionData.putInt(NotiTransactionDataKeys.NOTIFICATION_HOUR_SELECTION_KEY, dateSelection.getHourSelectionIndex());
+            transactionData.putInt(NotiTransactionDataKeys.NOTIFICATION_MINUTE_SELECTION_KEY, dateSelection.getMinuteSelectionIndex());
+            transactionData.putString(NotiTransactionDataKeys.NOTIFICATION_SET_DATE_STRING, notificationDateString);
+        }
+        return transactionData;
     }
 
     @Override
@@ -62,18 +134,28 @@ public class NoteEditFragment extends Fragment implements MenuProvider {
 
     @Override
     public boolean onMenuItemSelected(@NotNull MenuItem menuItem) {
-        switch (menuItem.getItemId()) {
-            case R.id.edit_done_item:
-                Toast.makeText(requireActivity(), "Clicked on Done", Toast.LENGTH_SHORT).show();
-                return true;
-            case R.id.edit_notify_item:
-                Toast.makeText(requireActivity(), "Clicked on Notification", Toast.LENGTH_SHORT).show();
-                return true;
-            case R.id.edit_importance_item:
-                Toast.makeText(requireActivity(), "Clicked on Importance", Toast.LENGTH_SHORT).show();
-                return true;
-            default:
-                return false;
+        if (menuItem.getItemId() == R.id.edit_done_item) {
+            Toast.makeText(requireActivity(), "Clicked on Done", Toast.LENGTH_SHORT).show();
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    @Override
+    public void onSubmitDatePick(String date, Boolean isNotificationSet, DateSelectionIndexSaver dateSelection) {
+        if (!isNotificationSet) {
+            _binding.noteEditNotificationDate.setText(getString(R.string.notification_never));
+
+            notificationDateInMillis = 0L;
+            dateSelection = new DateSelectionIndexSaver(0, 0, 0);
+        } else {
+            _binding.noteEditNotificationDate.setText(date);
+
+            Date notificationDate = NotiUtils.DateManipulator.parseStringToFullDate(date);
+            notificationDateInMillis = NotiUtils.DateManipulator.getDateTimeInMillis(notificationDate);
+            this.dateSelection = dateSelection;
+            notificationDateString = date;
         }
     }
 }

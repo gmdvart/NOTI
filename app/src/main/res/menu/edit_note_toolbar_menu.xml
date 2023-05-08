@@ -6,16 +6,4 @@
             android:icon="@drawable/ic_done"
             android:contentDescription="@string/done"
             app:showAsAction="ifRoom"/>
-
-    <item
-            android:id="@+id/edit_notify_item"
-            android:title="@string/notification"
-            android:contentDescription="@string/notification"
-            app:showAsAction="collapseActionView"/>
-
-    <item
-            android:id="@+id/edit_importance_item"
-            android:title="@string/importance"
-            android:contentDescription="@string/importance"
-            app:showAsAction="collapseActionView"/>
 </menu>

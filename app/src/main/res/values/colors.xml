@@ -1,5 +1,10 @@
 
 <resources>
+    <color name="importance_none">#757575</color>
+    <color name="importance_high">#e53935</color>
+    <color name="importance_medium">#ff6e40</color>
+    <color name="importance_low">#4caf50</color>
+
     <color name="seed">#f47e00</color>
     <color name="md_theme_light_primary">#944A00</color>
     <color name="md_theme_light_onPrimary">#FFFFFF</color>

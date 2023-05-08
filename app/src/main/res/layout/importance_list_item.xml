@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+    <ImageView
+            android:id="@+id/note_menu_item_indicator"
+            android:layout_width="12dp"
+            android:layout_height="12dp"
+            android:layout_margin="16dp"
+            android:src="@drawable/ic_importance_none"
+            android:layout_gravity="center"/>
+
+    <TextView
+            android:id="@+id/note_menu_item_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="16dp"
+            android:ellipsize="end"
+            android:maxLines="1"
+            style="@style/TextAppearance.Material3.BodyLarge"
+            tools:text="High"/>
+</LinearLayout>
