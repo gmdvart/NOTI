@@ -7,7 +7,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
-public final class NotiUtils {
+public final class NoteUtils {
     public static class DateManipulator {
         private static final String TAG = "NotiUtils.DateManipulator";
 

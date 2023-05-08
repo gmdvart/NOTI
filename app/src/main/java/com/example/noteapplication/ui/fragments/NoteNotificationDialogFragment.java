@@ -1,4 +1,4 @@
-package com.example.noteapplication;
+package com.example.noteapplication.ui.fragments;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -13,15 +13,16 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 import androidx.navigation.fragment.NavHostFragment;
+import com.example.noteapplication.R;
 import com.example.noteapplication.constants.NotiTransactionDataKeys;
 import com.example.noteapplication.databinding.FragmentNotificationDialogBinding;
-import com.example.noteapplication.ui.DateSelectionIndexSaver;
-import com.example.noteapplication.utils.NotiUtils;
+import com.example.noteapplication.ui.NoteDateSelectionIndexSaver;
+import com.example.noteapplication.utils.NoteUtils;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Date;
 
-public class NotificationDialogFragment extends DialogFragment {
+public class NoteNotificationDialogFragment extends DialogFragment {
     private static final String TAG = "NotificationDialogFragment";
 
     private FragmentNotificationDialogBinding _binding;
@@ -41,7 +42,7 @@ public class NotificationDialogFragment extends DialogFragment {
     private String pickedFullDate;
 
     public interface OnSubmitNotificationDateListener {
-        void onSubmitDatePick(String date, Boolean isNotificationSet, DateSelectionIndexSaver dateSelection);
+        void onSubmitDatePick(String date, Boolean isNotificationSet, NoteDateSelectionIndexSaver dateSelection);
     }
     private OnSubmitNotificationDateListener notificationDateListener;
 
@@ -71,15 +72,15 @@ public class NotificationDialogFragment extends DialogFragment {
     }
 
     private void setupLocalDate() {
-        pickedDate = NotiUtils.DateManipulator.getCurrentDate();
-        pickedHour = NotiUtils.DateManipulator.getCurrentHour();
-        pickedMinute = NotiUtils.DateManipulator.getCurrentMinute();
-        pickedFullDate = NotiUtils.DateManipulator.getCurrentFullDate();
+        pickedDate = NoteUtils.DateManipulator.getCurrentDate();
+        pickedHour = NoteUtils.DateManipulator.getCurrentHour();
+        pickedMinute = NoteUtils.DateManipulator.getCurrentMinute();
+        pickedFullDate = NoteUtils.DateManipulator.getCurrentFullDate();
 
         long plannedNotificationDate = requireArguments().getLong(NotiTransactionDataKeys.NOTIFICATION_SET_DATA_KEY, 0L);
         if (plannedNotificationDate != 0) {
-            Date currentNotificationDate = NotiUtils.DateManipulator.parseStringToFullDate(pickedFullDate);
-            long currentNotificationDateInMillis = NotiUtils.DateManipulator.getDateTimeInMillis(currentNotificationDate);
+            Date currentNotificationDate = NoteUtils.DateManipulator.parseStringToFullDate(pickedFullDate);
+            long currentNotificationDateInMillis = NoteUtils.DateManipulator.getDateTimeInMillis(currentNotificationDate);
             long dateDiff = plannedNotificationDate - currentNotificationDateInMillis;
 
             if (dateDiff > 0) {
@@ -95,7 +96,7 @@ public class NotificationDialogFragment extends DialogFragment {
     }
 
     private void setupDatePicker() {
-        dates = NotiUtils.DateManipulator.getDatePickers();
+        dates = NoteUtils.DateManipulator.getDatePickers();
         _binding.notificationDatePicker.setMinValue(0);
         _binding.notificationDatePicker.setMaxValue(dates.length - 1);
         _binding.notificationDatePicker.setDisplayedValues(dates);
@@ -114,7 +115,7 @@ public class NotificationDialogFragment extends DialogFragment {
     }
 
     private void setupHourPicker() {
-        hours = NotiUtils.DateManipulator.getHourPicker(pickedFullDate);
+        hours = NoteUtils.DateManipulator.getHourPicker(pickedFullDate);
         if (hours.length == 1) {
             _binding.notificationHourPicker.setValue(0);
         } else {
@@ -136,7 +137,7 @@ public class NotificationDialogFragment extends DialogFragment {
     }
 
     private void setupMinutePicker() {
-        minutes = NotiUtils.DateManipulator.getMinutePicker(pickedFullDate);
+        minutes = NoteUtils.DateManipulator.getMinutePicker(pickedFullDate);
         if (minutes.length == 1) {
             _binding.notificationMinutePicker.setValue(0);
         } else {
@@ -172,7 +173,7 @@ public class NotificationDialogFragment extends DialogFragment {
     }
 
     private void notifyLocalDateChanged() {
-        pickedFullDate = NotiUtils.DateManipulator.formatFullDate(pickedDate, pickedHour, pickedMinute);
+        pickedFullDate = NoteUtils.DateManipulator.formatFullDate(pickedDate, pickedHour, pickedMinute);
     }
 
     @Override
@@ -196,7 +197,7 @@ public class NotificationDialogFragment extends DialogFragment {
                     notificationDateListener.onSubmitDatePick(
                             pickedFullDate,
                             _binding.notificationSwitcher.isChecked(),
-                            new DateSelectionIndexSaver(pickedDateIndex, pickedHourIndex, pickedMinuteIndex)
+                            new NoteDateSelectionIndexSaver(pickedDateIndex, pickedHourIndex, pickedMinuteIndex)
                     );
                 }
                 dismiss();

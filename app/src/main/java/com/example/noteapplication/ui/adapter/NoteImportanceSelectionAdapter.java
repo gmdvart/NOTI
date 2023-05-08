@@ -1,4 +1,4 @@
-package com.example.noteapplication.ui;
+package com.example.noteapplication.ui.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -10,11 +10,11 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import com.example.noteapplication.R;
-import com.example.noteapplication.utils.NotiUtils;
+import com.example.noteapplication.utils.NoteUtils;
 
-public class ImportanceSelectionAdapter extends ArrayAdapter<String> {
+public class NoteImportanceSelectionAdapter extends ArrayAdapter<String> {
 
-    public ImportanceSelectionAdapter(@NonNull Context context, @NonNull String[] objects) {
+    public NoteImportanceSelectionAdapter(@NonNull Context context, @NonNull String[] objects) {
         super(context, 0, objects);
     }
 
@@ -28,7 +28,7 @@ public class ImportanceSelectionAdapter extends ArrayAdapter<String> {
         TextView textView = convertView.findViewById(R.id.note_menu_item_text);
         textView.setText(importance);
         ImageView imageView = convertView.findViewById(R.id.note_menu_item_indicator);
-        imageView.setImageResource(NotiUtils.ImportanceSelection.getImageResourceForImportance(importance));
+        imageView.setImageResource(NoteUtils.ImportanceSelection.getImageResourceForImportance(importance));
 
         return convertView;
     }

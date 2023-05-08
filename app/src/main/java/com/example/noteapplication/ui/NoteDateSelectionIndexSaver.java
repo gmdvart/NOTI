@@ -1,11 +1,11 @@
 package com.example.noteapplication.ui;
 
-public class DateSelectionIndexSaver {
+public class NoteDateSelectionIndexSaver {
     private final int date;
     private final int hour;
     private final int minute;
 
-    public DateSelectionIndexSaver(int date, int hour, int minute) {
+    public NoteDateSelectionIndexSaver(int date, int hour, int minute) {
         this.date = date;
         this.hour = hour;
         this.minute = minute;

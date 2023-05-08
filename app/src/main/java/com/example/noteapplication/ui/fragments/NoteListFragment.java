@@ -1,4 +1,4 @@
-package com.example.noteapplication;
+package com.example.noteapplication.ui.fragments;
 
 import android.os.Bundle;
 import android.view.*;
@@ -14,6 +14,8 @@ import androidx.lifecycle.Lifecycle;
 import androidx.navigation.NavController;
 import androidx.navigation.NavDirections;
 import androidx.navigation.fragment.NavHostFragment;
+//import com.example.noteapplication.NoteListFragmentDirections;
+import com.example.noteapplication.R;
 import com.example.noteapplication.databinding.FragmentNoteListBinding;
 import org.jetbrains.annotations.NotNull;
 

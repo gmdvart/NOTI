@@ -1,4 +1,4 @@
-package com.example.noteapplication;
+package com.example.noteapplication.ui.fragments;
 
 import android.os.Bundle;
 import android.view.*;
@@ -13,16 +13,19 @@ import androidx.lifecycle.Lifecycle;
 import androidx.navigation.NavController;
 import androidx.navigation.NavDirections;
 import androidx.navigation.fragment.NavHostFragment;
+//import com.example.noteapplication.NoteEditFragmentArgs;
+//import com.example.noteapplication.NoteEditFragmentDirections;
+import com.example.noteapplication.R;
 import com.example.noteapplication.constants.NotiTransactionDataKeys;
 import com.example.noteapplication.databinding.FragmentNoteEditBinding;
-import com.example.noteapplication.ui.DateSelectionIndexSaver;
-import com.example.noteapplication.ui.ImportanceSelectionAdapter;
-import com.example.noteapplication.utils.NotiUtils;
+import com.example.noteapplication.ui.NoteDateSelectionIndexSaver;
+import com.example.noteapplication.ui.adapter.NoteImportanceSelectionAdapter;
+import com.example.noteapplication.utils.NoteUtils;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Date;
 
-public class NoteEditFragment extends Fragment implements MenuProvider, NotificationDialogFragment.OnSubmitNotificationDateListener {
+public class NoteEditFragment extends Fragment implements MenuProvider, NoteNotificationDialogFragment.OnSubmitNotificationDateListener {
     private static final String TAG = "NoteEditFragment";
 
     private FragmentNoteEditBinding _binding;
@@ -37,7 +40,7 @@ public class NoteEditFragment extends Fragment implements MenuProvider, Notifica
     private String[] importanceSelectionList;
     private Long notificationDateInMillis = 0L;
     private String notificationDateString;
-    private DateSelectionIndexSaver dateSelection = new DateSelectionIndexSaver(0, 0, 0);
+    private NoteDateSelectionIndexSaver dateSelection = new NoteDateSelectionIndexSaver(0, 0, 0);
 
     @Override
     public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -87,7 +90,7 @@ public class NoteEditFragment extends Fragment implements MenuProvider, Notifica
 
     private void setupImportanceOptions() {
         AutoCompleteTextView importanceSelection = _binding.noteEditImportance;
-        ImportanceSelectionAdapter adapter = new ImportanceSelectionAdapter(requireContext(), importanceSelectionList);
+        NoteImportanceSelectionAdapter adapter = new NoteImportanceSelectionAdapter(requireContext(), importanceSelectionList);
         importanceSelection.setAdapter(adapter);
         importanceSelection.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -100,7 +103,7 @@ public class NoteEditFragment extends Fragment implements MenuProvider, Notifica
 
     private void setImportanceIcon(String importance) {
         _binding.noteMenuItemIndicator
-                .setImageResource(NotiUtils.ImportanceSelection.getImageResourceForImportance(importance));
+                .setImageResource(NoteUtils.ImportanceSelection.getImageResourceForImportance(importance));
     }
 
     private void setupDateField() {
@@ -108,7 +111,7 @@ public class NoteEditFragment extends Fragment implements MenuProvider, Notifica
             @Override
             public void onClick(View view) {
                 Bundle transactionData = getTransactionData();
-                NotificationDialogFragment dialog = new NotificationDialogFragment();
+                NoteNotificationDialogFragment dialog = new NoteNotificationDialogFragment();
                 dialog.setArguments(transactionData);
                 dialog.show(requireActivity().getSupportFragmentManager(), "NotificationDialogFragment");
             }
@@ -143,17 +146,17 @@ public class NoteEditFragment extends Fragment implements MenuProvider, Notifica
     }
 
     @Override
-    public void onSubmitDatePick(String date, Boolean isNotificationSet, DateSelectionIndexSaver dateSelection) {
+    public void onSubmitDatePick(String date, Boolean isNotificationSet, NoteDateSelectionIndexSaver dateSelection) {
         if (!isNotificationSet) {
             _binding.noteEditNotificationDate.setText(getString(R.string.notification_never));
 
             notificationDateInMillis = 0L;
-            dateSelection = new DateSelectionIndexSaver(0, 0, 0);
+            dateSelection = new NoteDateSelectionIndexSaver(0, 0, 0);
         } else {
             _binding.noteEditNotificationDate.setText(date);
 
-            Date notificationDate = NotiUtils.DateManipulator.parseStringToFullDate(date);
-            notificationDateInMillis = NotiUtils.DateManipulator.getDateTimeInMillis(notificationDate);
+            Date notificationDate = NoteUtils.DateManipulator.parseStringToFullDate(date);
+            notificationDateInMillis = NoteUtils.DateManipulator.getDateTimeInMillis(notificationDate);
             this.dateSelection = dateSelection;
             notificationDateString = date;
         }
