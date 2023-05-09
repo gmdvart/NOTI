@@ -11,7 +11,9 @@ public class Note {
     @ColumnInfo(name = "importance_level")
     public int importanceLevel;
     @ColumnInfo(name = "notification_date")
-    public String notificationDate;
+    public int notificationDate;
     public String title;
     public String description;
+    @ColumnInfo(name = "creation_date")
+    public int creationDate;
 }
