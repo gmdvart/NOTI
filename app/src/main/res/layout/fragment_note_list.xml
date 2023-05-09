@@ -84,17 +84,15 @@
             </HorizontalScrollView>
         </LinearLayout>
 
-        <androidx.core.widget.NestedScrollView
+        <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recycler_view"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                tools:listitem="@layout/note_list_item"
+                tools:itemCount="10">
 
-            <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingHorizontal="16dp"
-                    style="@style/TextAppearance.Material3.BodyLarge"
-                    android:text="@string/lorem_ipsum"/>
-        </androidx.core.widget.NestedScrollView>
+
+        </androidx.recyclerview.widget.RecyclerView>
     </LinearLayout>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton

@@ -29,9 +29,11 @@ public final class NoteUtils {
         public static String getCurrentFullDate() {
             return fullDateFormatter.format(Calendar.getInstance().getTime());
         }
-        public static String formatFullDate(String date, String hour, String minutes) {
-            return date + " " + yearFormatter.format(Calendar.getInstance().getTime()) + " at " + hour + ":" + minutes;
+        public static String getFormattedFullDate(int date) {
+            Date dateToFormat = new Date(date);
+            return fullDateFormatter.format(dateToFormat);
         }
+
         public static Date parseStringToFullDate(String date) {
             try {
                 return fullDateFormatter.parse(date);
@@ -140,13 +142,25 @@ public final class NoteUtils {
     }
 
     public static class ImportanceSelection {
-        public static int getImageResourceForImportance(String importance) {
+        public static int getImageResourceForImportanceByString(String importance) {
             switch (importance) {
                 case "High":
                     return R.drawable.ic_importance_high;
                 case "Medium":
                     return R.drawable.ic_importance_medium;
                 case "Low":
+                    return R.drawable.ic_importance_low;
+                default:
+                    return R.drawable.ic_importance_none;
+            }
+        }
+        public static int getImageResourceForImportanceByLevel(int level) {
+            switch (level) {
+                case 3:
+                    return R.drawable.ic_importance_high;
+                case 2:
+                    return R.drawable.ic_importance_medium;
+                case 1:
                     return R.drawable.ic_importance_low;
                 default:
                     return R.drawable.ic_importance_none;
