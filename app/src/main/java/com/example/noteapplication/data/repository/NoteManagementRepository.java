@@ -47,6 +47,11 @@ public class NoteManagementRepository implements NoteRepository {
     }
 
     @Override
+    public LiveData<Note> getNoteById(int id) {
+        return noteDao.getNoteById(id);
+    }
+
+    @Override
     public LiveData<List<Note>> getAllNotes() {
         return noteDao.getAllNotes();
     }

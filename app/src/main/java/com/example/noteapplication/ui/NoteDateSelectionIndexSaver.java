@@ -1,25 +1,25 @@
 package com.example.noteapplication.ui;
 
 public class NoteDateSelectionIndexSaver {
-    private final int date;
-    private final int hour;
-    private final int minute;
+    private final int dateSelectionIndex;
+    private final int hourSelectionIndex;
+    private final int minuteSelectionIndex;
 
-    public NoteDateSelectionIndexSaver(int date, int hour, int minute) {
-        this.date = date;
-        this.hour = hour;
-        this.minute = minute;
+    public NoteDateSelectionIndexSaver(int dateSelectionIndex, int hourSelectionIndex, int minuteSelectionIndex) {
+        this.dateSelectionIndex = dateSelectionIndex;
+        this.hourSelectionIndex = hourSelectionIndex;
+        this.minuteSelectionIndex = minuteSelectionIndex;
     }
 
     public int getDateSelectionIndex() {
-        return date;
+        return dateSelectionIndex;
     }
 
     public int getHourSelectionIndex() {
-        return hour;
+        return hourSelectionIndex;
     }
 
     public int getMinuteSelectionIndex() {
-        return minute;
+        return minuteSelectionIndex;
     }
 }

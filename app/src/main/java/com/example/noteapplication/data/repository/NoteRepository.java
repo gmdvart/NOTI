@@ -9,5 +9,6 @@ public interface NoteRepository {
     void createNote(Note note);
     void updateNote(Note note);
     void deleteNote(Note note);
+    LiveData<Note> getNoteById(int id);
     LiveData<List<Note>> getAllNotes();
 }

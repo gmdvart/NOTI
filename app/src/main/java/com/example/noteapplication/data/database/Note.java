@@ -1,8 +1,10 @@
 package com.example.noteapplication.data.database;
 
 import androidx.room.ColumnInfo;
+import androidx.room.Embedded;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
+import com.example.noteapplication.ui.NoteDateSelectionIndexSaver;
 
 @Entity(tableName = "notes")
 public class Note {
@@ -16,4 +18,6 @@ public class Note {
     public String description;
     @ColumnInfo(name = "creation_date")
     public int creationDate;
+    @Embedded
+    public NoteDateSelectionIndexSaver indices;
 }

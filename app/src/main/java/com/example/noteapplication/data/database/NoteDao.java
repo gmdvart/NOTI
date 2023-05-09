@@ -13,6 +13,8 @@ public interface NoteDao {
     void updateNote(Note note);
     @Delete
     void deleteNote(Note note);
+    @Query("SELECT * FROM notes WHERE id = :id")
+    LiveData<Note> getNoteById(int id);
     @Query("SELECT * FROM notes")
     LiveData<List<Note>> getAllNotes();
 }
