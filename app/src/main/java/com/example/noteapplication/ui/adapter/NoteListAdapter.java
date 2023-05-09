@@ -1,6 +1,7 @@
 package com.example.noteapplication.ui.adapter;
 
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.DiffUtil;
@@ -14,7 +15,7 @@ import org.jetbrains.annotations.NotNull;
 public class NoteListAdapter extends ListAdapter<Note, NoteListAdapter.NoteViewHolder> {
     private OnNoteClickListener onNoteClickListener;
 
-    protected NoteListAdapter(OnNoteClickListener onNoteClickListener) {
+    public NoteListAdapter(OnNoteClickListener onNoteClickListener) {
         super(NoteListAdapter.DiffCallback);
         this.onNoteClickListener = onNoteClickListener;
     }
@@ -47,6 +48,19 @@ public class NoteListAdapter extends ListAdapter<Note, NoteListAdapter.NoteViewH
     @Override
     public void onBindViewHolder(@NotNull NoteViewHolder holder, int position) {
         Note currentNote = getItem(position);
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onNoteClickListener.onClick(currentNote.id);
+            }
+        });
+        holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                onNoteClickListener.onLongClick(currentNote, view);
+                return true;
+            }
+        });
         holder.bind(currentNote);
     }
 
@@ -64,6 +78,6 @@ public class NoteListAdapter extends ListAdapter<Note, NoteListAdapter.NoteViewH
 
     public interface OnNoteClickListener {
         void onClick(int noteId);
-        void onLongClick(Note note);
+        void onLongClick(Note note, View anchor);
     }
 }

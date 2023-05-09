@@ -36,6 +36,7 @@
     <string name="search">Search</string>
     <string name="search_hint">Search for Notes…</string>
     <string name="layout">Change Layout</string>
+    <string name="delete">Delete</string>
     <string name="importance">Importance</string>
     <string name="notification">Notification</string>
     <string name="creation_date">Creation date</string>

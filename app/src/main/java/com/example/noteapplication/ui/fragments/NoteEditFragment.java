@@ -10,6 +10,7 @@ import androidx.core.view.MenuHost;
 import androidx.core.view.MenuProvider;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Lifecycle;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.NavDirections;
 import androidx.navigation.fragment.NavHostFragment;
@@ -19,6 +20,7 @@ import com.example.noteapplication.R;
 import com.example.noteapplication.constants.NotiTransactionDataKeys;
 import com.example.noteapplication.databinding.FragmentNoteEditBinding;
 import com.example.noteapplication.ui.NoteDateSelectionIndexSaver;
+import com.example.noteapplication.ui.NoteViewModel;
 import com.example.noteapplication.ui.adapter.NoteImportanceSelectionAdapter;
 import com.example.noteapplication.utils.NoteUtils;
 import org.jetbrains.annotations.NotNull;
@@ -35,6 +37,8 @@ public class NoteEditFragment extends Fragment implements MenuProvider, NoteNoti
 
     private NavController navController;
     private NoteEditFragmentArgs navArgs;
+
+    private NoteViewModel viewModel;
 
     // Note edit options
     private String[] importanceSelectionList;
@@ -57,6 +61,8 @@ public class NoteEditFragment extends Fragment implements MenuProvider, NoteNoti
             getString(R.string.importance_medium),
             getString(R.string.importance_high)
         };
+
+        viewModel = new ViewModelProvider(this, ViewModelProvider.Factory.from(NoteViewModel.initializer)).get(NoteViewModel.class);
 
         notificationDateString = getString(R.string.notification_never);
 
@@ -81,6 +87,10 @@ public class NoteEditFragment extends Fragment implements MenuProvider, NoteNoti
 
         setupImportanceOptions();
         setupDateField();
+
+        if (navArgs.getNoteId() != -1) {
+            // Get a Note from ViewModel
+        }
     }
 
     private void onBackArrowClick() {
@@ -151,7 +161,7 @@ public class NoteEditFragment extends Fragment implements MenuProvider, NoteNoti
             _binding.noteEditNotificationDate.setText(getString(R.string.notification_never));
 
             notificationDateInMillis = 0L;
-            dateSelection = new NoteDateSelectionIndexSaver(0, 0, 0);
+            this.dateSelection = new NoteDateSelectionIndexSaver(0, 0, 0);
         } else {
             _binding.noteEditNotificationDate.setText(date);
 
