@@ -43,6 +43,10 @@ public class NoteViewModel extends ViewModel {
         return allNotes;
     }
 
+    public LiveData<Note> getNoteById(int id) {
+        return noteRepository.getNoteById(id);
+    }
+
     public static final ViewModelInitializer<NoteViewModel> initializer = new ViewModelInitializer<>(
             NoteViewModel.class, new Function1<CreationExtras, NoteViewModel>() {
         @Override

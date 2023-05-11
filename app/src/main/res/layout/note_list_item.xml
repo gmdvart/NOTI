@@ -54,6 +54,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 style="@style/TextAppearance.MaterialComponents.Caption"
-                tools:text="Wed, July 10 2023 \nat 3:00 PM"/>
+                tools:text="Created at Wed, July 10 2023 at 3:00 PM"/>
     </LinearLayout>
 </com.google.android.material.card.MaterialCardView>

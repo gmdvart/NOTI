@@ -13,6 +13,7 @@ import androidx.core.view.MenuHost;
 import androidx.core.view.MenuProvider;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Lifecycle;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.NavDirections;
@@ -25,6 +26,8 @@ import com.example.noteapplication.databinding.FragmentNoteListBinding;
 import com.example.noteapplication.ui.NoteViewModel;
 import com.example.noteapplication.ui.adapter.NoteListAdapter;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.List;
 
 public class NoteListFragment extends Fragment implements MenuProvider, PopupMenu.OnMenuItemClickListener {
     private static final String TAG = "NoteListFragment";
@@ -79,7 +82,7 @@ public class NoteListFragment extends Fragment implements MenuProvider, PopupMen
 
     private void setupRecyclerView() {
         _binding.recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
-        _binding.recyclerView.setAdapter(new NoteListAdapter(new NoteListAdapter.OnNoteClickListener() {
+        NoteListAdapter adapter = new NoteListAdapter(new NoteListAdapter.OnNoteClickListener() {
             @Override
             public void onClick(int noteId) {
                 navigateWithNoteId(noteId);
@@ -90,7 +93,14 @@ public class NoteListFragment extends Fragment implements MenuProvider, PopupMen
                 noteToDelete = note;
                 showPopupMenu(anchor);
             }
-        }));
+        });
+        _binding.recyclerView.setAdapter(adapter);
+        viewModel.getAllNotes().observe(getViewLifecycleOwner(), new Observer<List<Note>>() {
+            @Override
+            public void onChanged(List<Note> notes) {
+                adapter.submitList(notes);
+            }
+        });
     }
 
     private void navigateWithNoteId(int id) {

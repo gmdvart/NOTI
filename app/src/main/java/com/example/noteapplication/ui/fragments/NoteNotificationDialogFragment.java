@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.NumberPicker;
@@ -77,7 +78,9 @@ public class NoteNotificationDialogFragment extends DialogFragment {
         pickedMinute = NoteUtils.DateManipulator.getCurrentMinute();
         pickedFullDate = NoteUtils.DateManipulator.getCurrentFullDate();
 
-        long plannedNotificationDate = requireArguments().getLong(NotiTransactionDataKeys.NOTIFICATION_SET_DATA_KEY, 0L);
+        long plannedNotificationDate = requireArguments().getLong(
+                NotiTransactionDataKeys.NOTIFICATION_SET_DATA_KEY, 0L
+        );
         if (plannedNotificationDate != 0) {
             Date currentNotificationDate = NoteUtils.DateManipulator.parseStringToFullDate(pickedFullDate);
             long currentNotificationDateInMillis = NoteUtils.DateManipulator.getDateTimeInMillis(currentNotificationDate);
@@ -89,6 +92,7 @@ public class NoteNotificationDialogFragment extends DialogFragment {
                 pickedHourIndex = requireArguments().getInt(NotiTransactionDataKeys.NOTIFICATION_HOUR_SELECTION_KEY);
                 pickedMinuteIndex = requireArguments().getInt(NotiTransactionDataKeys.NOTIFICATION_MINUTE_SELECTION_KEY);
                 pickedFullDate = requireArguments().getString(NotiTransactionDataKeys.NOTIFICATION_SET_DATE_STRING);
+                Log.d(TAG, pickedFullDate);
             }
         } else {
             _binding.notificationSwitcher.setVisibility(View.GONE);

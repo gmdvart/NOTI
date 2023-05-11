@@ -32,7 +32,7 @@ public final class NoteUtils {
         public static String formatFullDate(String date, String hour, String minutes) {
             return date + " " + yearFormatter.format(Calendar.getInstance().getTime()) + " at " + hour + ":" + minutes;
         }
-        public static String getFormattedFullDate(int date) {
+        public static String getFormattedFullDate(long date) {
             Date dateToFormat = new Date(date);
             return fullDateFormatter.format(dateToFormat);
         }
@@ -168,6 +168,19 @@ public final class NoteUtils {
                     return R.drawable.ic_importance_low;
                 default:
                     return R.drawable.ic_importance_none;
+            }
+        }
+
+        public static int getStringResourceByImportanceLevel(int level) {
+            switch (level) {
+                case 3:
+                    return R.string.importance_high;
+                case 2:
+                    return R.string.importance_medium;
+                case 1:
+                    return R.string.importance_low;
+                default:
+                    return R.string.importance_none;
             }
         }
 

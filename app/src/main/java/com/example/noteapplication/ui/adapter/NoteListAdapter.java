@@ -1,5 +1,7 @@
 package com.example.noteapplication.ui.adapter;
 
+import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -7,13 +9,14 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
+import com.example.noteapplication.R;
 import com.example.noteapplication.data.database.Note;
 import com.example.noteapplication.databinding.NoteListItemBinding;
 import com.example.noteapplication.utils.NoteUtils;
 import org.jetbrains.annotations.NotNull;
 
 public class NoteListAdapter extends ListAdapter<Note, NoteListAdapter.NoteViewHolder> {
-    private OnNoteClickListener onNoteClickListener;
+    private final OnNoteClickListener onNoteClickListener;
 
     public NoteListAdapter(OnNoteClickListener onNoteClickListener) {
         super(NoteListAdapter.DiffCallback);
@@ -22,19 +25,33 @@ public class NoteListAdapter extends ListAdapter<Note, NoteListAdapter.NoteViewH
 
     static class NoteViewHolder extends RecyclerView.ViewHolder {
         private final NoteListItemBinding binding;
+        private final Context context;
 
-        NoteViewHolder(NoteListItemBinding binding) {
+        NoteViewHolder(Context context, NoteListItemBinding binding) {
             super(binding.getRoot());
             this.binding = binding;
+            this.context = context;
         }
 
         public void bind(Note note) {
-            binding.noteIndicator.setImageResource(NoteUtils.ImportanceSelection.getImageResourceForImportanceByLevel(note.importanceLevel));
-            if (note.notificationDate != 0)
-                binding.noteNotifyDate.setText(NoteUtils.DateManipulator.getFormattedFullDate(note.notificationDate));
+            binding.noteIndicator.setImageResource(
+                    NoteUtils.ImportanceSelection.getImageResourceForImportanceByLevel(note.importanceLevel)
+            );
+
+            if (note.notificationDate != 0) {
+                String formattedNotificationDate = NoteUtils.DateManipulator.getFormattedFullDate(note.notificationDate * 1000L);
+                String notificationText = context.getString(R.string.notify_on, formattedNotificationDate);
+                binding.noteNotifyDate.setText(notificationText);
+                binding.noteNotifyDate.setVisibility(View.VISIBLE);
+            }
+            else binding.noteNotifyDate.setVisibility(View.GONE);
+
             binding.noteTitle.setText(note.title);
             binding.noteDescription.setText(note.description);
-            binding.noteCreationDate.setText(note.creationDate);
+            
+            String formattedCreationDate = NoteUtils.DateManipulator.getFormattedFullDate(note.creationDate * 1000L);
+            String creationText = context.getString(R.string.created_at, formattedCreationDate);
+            binding.noteCreationDate.setText(creationText);
         }
     }
 
@@ -42,7 +59,7 @@ public class NoteListAdapter extends ListAdapter<Note, NoteListAdapter.NoteViewH
     @Override
     public NoteViewHolder onCreateViewHolder(@NotNull ViewGroup parent, int viewType) {
         NoteListItemBinding binding = NoteListItemBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
-        return new NoteViewHolder(binding);
+        return new NoteViewHolder(parent.getContext(), binding);
     }
 
     @Override
@@ -78,6 +95,7 @@ public class NoteListAdapter extends ListAdapter<Note, NoteListAdapter.NoteViewH
 
     public interface OnNoteClickListener {
         void onClick(int noteId);
+
         void onLongClick(Note note, View anchor);
     }
 }
