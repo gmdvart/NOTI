@@ -1,7 +1,6 @@
 package com.example.noteapplication.ui.fragments;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.*;
 import android.widget.*;
 import androidx.annotation.NonNull;
@@ -16,10 +15,8 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.NavDirections;
 import androidx.navigation.fragment.NavHostFragment;
-//import com.example.noteapplication.NoteEditFragmentArgs;
-//import com.example.noteapplication.NoteEditFragmentDirections;
 import com.example.noteapplication.R;
-import com.example.noteapplication.constants.NotiTransactionDataKeys;
+import com.example.noteapplication.constants.NoteTransactionDataKeys;
 import com.example.noteapplication.data.database.Note;
 import com.example.noteapplication.databinding.FragmentNoteEditBinding;
 import com.example.noteapplication.ui.NoteDateSelectionIndexSaver;
@@ -95,7 +92,7 @@ public class NoteEditFragment extends Fragment implements MenuProvider, NoteNoti
         setupDateField();
 
         if (navArgs.getNoteId() != -1) {
-            viewModel.getNoteById(navArgs.getNoteId()).observe(getViewLifecycleOwner(), new Observer<Note>() {
+            viewModel.readNoteById(navArgs.getNoteId()).observe(getViewLifecycleOwner(), new Observer<Note>() {
                 @Override
                 public void onChanged(Note note) {
                     selectedNote = note;
@@ -143,27 +140,31 @@ public class NoteEditFragment extends Fragment implements MenuProvider, NoteNoti
 
     private Bundle getTransactionData() {
         Bundle transactionData = new Bundle();
-        transactionData.putLong(NotiTransactionDataKeys.NOTIFICATION_SET_DATA_KEY, notificationDateInMillis);
+        transactionData.putLong(NoteTransactionDataKeys.NOTIFICATION_SET_DATA_KEY, notificationDateInMillis);
         if (notificationDateInMillis != 0) {
-            transactionData.putInt(NotiTransactionDataKeys.NOTIFICATION_DATE_SELECTION_KEY, dateSelectionIndices.getDateSelectionIndex());
-            transactionData.putInt(NotiTransactionDataKeys.NOTIFICATION_HOUR_SELECTION_KEY, dateSelectionIndices.getHourSelectionIndex());
-            transactionData.putInt(NotiTransactionDataKeys.NOTIFICATION_MINUTE_SELECTION_KEY, dateSelectionIndices.getMinuteSelectionIndex());
-            transactionData.putString(NotiTransactionDataKeys.NOTIFICATION_SET_DATE_STRING, notificationDateString);
+            transactionData.putInt(NoteTransactionDataKeys.NOTIFICATION_DATE_SELECTION_KEY, dateSelectionIndices.getDateSelectionIndex());
+            transactionData.putInt(NoteTransactionDataKeys.NOTIFICATION_HOUR_SELECTION_KEY, dateSelectionIndices.getHourSelectionIndex());
+            transactionData.putInt(NoteTransactionDataKeys.NOTIFICATION_MINUTE_SELECTION_KEY, dateSelectionIndices.getMinuteSelectionIndex());
+            transactionData.putString(NoteTransactionDataKeys.NOTIFICATION_SET_DATE_STRING, notificationDateString);
         }
         return transactionData;
     }
 
     private void setupNoteFields(Note note) {
-        int importanceStringRes = NoteUtils.ImportanceSelection.getStringResourceByImportanceLevel(note.importanceLevel);
-        _binding.noteEditImportance.setText(importanceStringRes);
-        setImportance(getString(importanceStringRes), note.importanceLevel);
+        int noteImportanceLevel = NoteUtils.ImportanceSelection.getImportanceLevel(note.importanceLevel);
+        int importanceStringRes = NoteUtils.ImportanceSelection.getStringResourceByImportanceLevel(noteImportanceLevel);
+
+        _binding.noteEditImportance.setText(getString(importanceStringRes), false);
+        setImportance(getString(importanceStringRes), noteImportanceLevel);
 
         int notificationDateInSecs = note.notificationDate;
         if (notificationDateInSecs != 0) {
             notificationDateInMillis = notificationDateInSecs * 1000L;
             String formattedFullDate = NoteUtils.DateManipulator.getFormattedFullDate(notificationDateInMillis);
+
             notificationDateString = formattedFullDate;
             _binding.noteEditNotificationDate.setText(formattedFullDate);
+
             dateSelectionIndices = new NoteDateSelectionIndexSaver(
                     note.indices.getDateSelectionIndex(),
                     note.indices.getHourSelectionIndex(),
@@ -185,7 +186,7 @@ public class NoteEditFragment extends Fragment implements MenuProvider, NoteNoti
         if (isUpdate) note = selectedNote;
         else note = new Note();
 
-        note.importanceLevel = importanceLevel;
+        note.importanceLevel = NoteUtils.ImportanceSelection.getImportanceLevel(importanceLevel);
 
         if (notificationDateInSecs != Integer.MAX_VALUE) {
             note.notificationDate = notificationDateInSecs;
@@ -219,8 +220,9 @@ public class NoteEditFragment extends Fragment implements MenuProvider, NoteNoti
     @Override
     public boolean onMenuItemSelected(@NotNull MenuItem menuItem) {
         if (menuItem.getItemId() == R.id.edit_done_item) {
-            Toast.makeText(requireContext(), "Click on Done!", Toast.LENGTH_SHORT).show();
             createOrUpdateNote(navArgs.getNoteId() != -1);
+            NavDirections directions = NoteEditFragmentDirections.actionNoteEditFragmentToNoteListFragment();
+            navController.navigate(directions);
             return true;
         } else {
             return false;

@@ -8,6 +8,8 @@ import java.util.List;
 import java.util.concurrent.ExecutorService;
 
 public class NoteManagementRepository implements NoteRepository {
+    private static final String TAG = "NoteManagementRepository";
+
     private final NoteDao noteDao;
     private final ExecutorService databaseExecutor;
 
@@ -47,12 +49,17 @@ public class NoteManagementRepository implements NoteRepository {
     }
 
     @Override
-    public LiveData<Note> getNoteById(int id) {
-        return noteDao.getNoteById(id);
+    public LiveData<Note> readNoteById(int id) {
+        return noteDao.readNoteById(id);
     }
 
     @Override
-    public LiveData<List<Note>> getAllNotes() {
-        return noteDao.getAllNotes();
+    public LiveData<List<Note>> readFilteredNotes(int filterKey) {
+        return noteDao.readFilteredNotes(filterKey);
+    }
+
+    @Override
+    public LiveData<List<Note>> searchNotes(String searchString) {
+        return noteDao.searchNotes(searchString);
     }
 }

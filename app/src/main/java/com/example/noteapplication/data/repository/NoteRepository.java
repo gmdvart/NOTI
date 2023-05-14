@@ -9,6 +9,7 @@ public interface NoteRepository {
     void createNote(Note note);
     void updateNote(Note note);
     void deleteNote(Note note);
-    LiveData<Note> getNoteById(int id);
-    LiveData<List<Note>> getAllNotes();
+    LiveData<Note> readNoteById(int id);
+    LiveData<List<Note>> readFilteredNotes(int filterKey);
+    LiveData<List<Note>> searchNotes(String searchString);
 }

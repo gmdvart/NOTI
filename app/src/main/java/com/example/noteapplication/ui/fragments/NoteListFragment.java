@@ -1,12 +1,14 @@
 package com.example.noteapplication.ui.fragments;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.*;
+import android.widget.LinearLayout;
 import android.widget.PopupMenu;
-import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.annotation.PluralsRes;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
 import androidx.core.view.MenuHost;
@@ -18,13 +20,15 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.NavDirections;
 import androidx.navigation.fragment.NavHostFragment;
-//import com.example.noteapplication.NoteListFragmentDirections;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import com.example.noteapplication.R;
+import com.example.noteapplication.constants.NoteFilterKeys;
+import com.example.noteapplication.constants.NotePreferences;
 import com.example.noteapplication.data.database.Note;
 import com.example.noteapplication.databinding.FragmentNoteListBinding;
 import com.example.noteapplication.ui.NoteViewModel;
 import com.example.noteapplication.ui.adapter.NoteListAdapter;
+import com.google.android.material.chip.ChipGroup;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
@@ -40,6 +44,24 @@ public class NoteListFragment extends Fragment implements MenuProvider, PopupMen
 
     private NoteViewModel viewModel;
     private Note noteToDelete;
+
+    private boolean isLinearLayoutSelected;
+    private SharedPreferences.Editor layoutPreferencesEditor;
+
+    private NoteListAdapter adapter;
+
+    private int lastSelectedFilter = NoteFilterKeys.DEFAULT;
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        SharedPreferences layoutPreferences = requireActivity().getSharedPreferences(NotePreferences.LAYOUT_PREFERENCES_NAME, Context.MODE_PRIVATE);
+        isLinearLayoutSelected = layoutPreferences.getBoolean(NotePreferences.LAYOUT_TYPE_KEY, true);
+        layoutPreferencesEditor = layoutPreferences.edit();
+
+        Log.d(TAG, "onCreate, isLinearLayoutSelected: " + isLinearLayoutSelected);
+    }
 
     @Override
     public View onCreateView(@NotNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -64,6 +86,16 @@ public class NoteListFragment extends Fragment implements MenuProvider, PopupMen
 
         setupFab();
         setupRecyclerView();
+        setupChipMenu();
+    }
+
+    private void chooseLayout() {
+
+    }
+
+    private void setIcon(MenuItem menuItem) {
+        if (isLinearLayoutSelected) menuItem.setIcon(R.drawable.ic_grid);
+        else menuItem.setIcon(R.drawable.ic_list);
     }
 
     private void setupFab() {
@@ -82,10 +114,10 @@ public class NoteListFragment extends Fragment implements MenuProvider, PopupMen
 
     private void setupRecyclerView() {
         _binding.recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
-        NoteListAdapter adapter = new NoteListAdapter(new NoteListAdapter.OnNoteClickListener() {
+        adapter = new NoteListAdapter(new NoteListAdapter.OnNoteClickListener() {
             @Override
             public void onClick(int noteId) {
-                navigateWithNoteId(noteId);
+                navigateToNoteWithId(noteId);
             }
 
             @Override
@@ -95,15 +127,10 @@ public class NoteListFragment extends Fragment implements MenuProvider, PopupMen
             }
         });
         _binding.recyclerView.setAdapter(adapter);
-        viewModel.getAllNotes().observe(getViewLifecycleOwner(), new Observer<List<Note>>() {
-            @Override
-            public void onChanged(List<Note> notes) {
-                adapter.submitList(notes);
-            }
-        });
+        setFilter(NoteFilterKeys.DEFAULT);
     }
 
-    private void navigateWithNoteId(int id) {
+    private void navigateToNoteWithId(int id) {
         com.example.noteapplication.ui.fragments.NoteListFragmentDirections.ActionNoteListFragmentToNoteEditFragment action =
                 NoteListFragmentDirections.actionNoteListFragmentToNoteEditFragment();
         action.setNoteId(id);
@@ -117,6 +144,46 @@ public class NoteListFragment extends Fragment implements MenuProvider, PopupMen
         popupMenu.show();
     }
 
+    private void setupChipMenu() {
+        _binding.filterChipGroup.setOnCheckedStateChangeListener(new ChipGroup.OnCheckedStateChangeListener() {
+            @Override
+            public void onCheckedChanged(@NotNull ChipGroup group, @NotNull List<Integer> checkedIds) {
+                chooseFilter(group.getCheckedChipId());
+            }
+        });
+    }
+
+    private void chooseFilter(int chipId) {
+        switch (chipId) {
+            case R.id.importance_chip:
+                lastSelectedFilter = NoteFilterKeys.BY_IMPORTANCE;
+                break;
+            case R.id.notification_chip:
+                lastSelectedFilter = NoteFilterKeys.BY_NOTIFICATION;
+                break;
+            case R.id.creation_date_chip:
+                lastSelectedFilter = NoteFilterKeys.BY_CREATION;
+                break;
+            case R.id.alphabet_chip:
+                lastSelectedFilter = NoteFilterKeys.BY_ALPHABET;
+                break;
+            default:
+                lastSelectedFilter = NoteFilterKeys.DEFAULT;
+                break;
+        }
+        setFilter(lastSelectedFilter);
+    }
+
+    private void setFilter(int filterKey) {
+        _binding.recyclerView.scrollToPosition(0);
+        viewModel.readFilteredNotes(filterKey).observe(getViewLifecycleOwner(), new Observer<List<Note>>() {
+            @Override
+            public void onChanged(List<Note> notes) {
+                adapter.submitList(notes);
+            }
+        });
+    }
+
     @Override
     public void onCreateMenu(@NotNull Menu menu, @NotNull MenuInflater menuInflater) {
         menuInflater.inflate(R.menu.list_note_toolbar_menu, menu);
@@ -126,16 +193,43 @@ public class NoteListFragment extends Fragment implements MenuProvider, PopupMen
         searchView.setQueryHint(getString(R.string.search_hint));
         searchItem.setOnActionExpandListener(new MenuItem.OnActionExpandListener() {
             final MenuItem layoutItem = menu.findItem(R.id.list_layout_item);
+            final LinearLayout filterBlock = _binding.filterBlock;
             @Override
             public boolean onMenuItemActionExpand(@NonNull MenuItem item) {
                 layoutItem.setVisible(false);
+                filterBlock.setVisibility(View.GONE);
                 return true;
             }
 
             @Override
             public boolean onMenuItemActionCollapse(@NonNull MenuItem item) {
                 layoutItem.setVisible(true);
+                filterBlock.setVisibility(View.VISIBLE);
+                setFilter(lastSelectedFilter);
                 return true;
+            }
+        });
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                searchForNotes(newText);
+                return true;
+            }
+        });
+        setIcon(menu.findItem(R.id.list_layout_item));
+    }
+
+    private void searchForNotes(String searchQuery) {
+        String query = "%" + searchQuery + "%";
+        viewModel.searchForNotes(query).observe(getViewLifecycleOwner(), new Observer<List<Note>>() {
+            @Override
+            public void onChanged(List<Note> notes) {
+                adapter.submitList(notes);
             }
         });
     }
@@ -143,11 +237,18 @@ public class NoteListFragment extends Fragment implements MenuProvider, PopupMen
     @Override
     public boolean onMenuItemSelected(@NotNull MenuItem menuItem) {
         if (menuItem.getItemId() == R.id.list_layout_item) {
-            Toast.makeText(requireContext(), "Clicked on Layout", Toast.LENGTH_SHORT).show();
+            isLinearLayoutSelected = !isLinearLayoutSelected;
+            savePreferences();
+            setIcon(menuItem);
             return true;
         } else {
             return false;
         }
+    }
+
+    private void savePreferences() {
+        layoutPreferencesEditor.putBoolean(NotePreferences.LAYOUT_TYPE_KEY, isLinearLayoutSelected);
+        layoutPreferencesEditor.apply();
     }
 
     @Override

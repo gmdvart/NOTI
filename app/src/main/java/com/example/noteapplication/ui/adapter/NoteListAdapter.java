@@ -5,7 +5,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
@@ -14,6 +17,9 @@ import com.example.noteapplication.data.database.Note;
 import com.example.noteapplication.databinding.NoteListItemBinding;
 import com.example.noteapplication.utils.NoteUtils;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class NoteListAdapter extends ListAdapter<Note, NoteListAdapter.NoteViewHolder> {
     private final OnNoteClickListener onNoteClickListener;
@@ -35,7 +41,9 @@ public class NoteListAdapter extends ListAdapter<Note, NoteListAdapter.NoteViewH
 
         public void bind(Note note) {
             binding.noteIndicator.setImageResource(
-                    NoteUtils.ImportanceSelection.getImageResourceForImportanceByLevel(note.importanceLevel)
+                    NoteUtils.ImportanceSelection.getImageResourceForImportanceByLevel(
+                            NoteUtils.ImportanceSelection.getImportanceLevel(note.importanceLevel)
+                    )
             );
 
             if (note.notificationDate != 0) {

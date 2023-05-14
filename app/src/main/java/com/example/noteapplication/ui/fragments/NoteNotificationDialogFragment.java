@@ -15,7 +15,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 import androidx.navigation.fragment.NavHostFragment;
 import com.example.noteapplication.R;
-import com.example.noteapplication.constants.NotiTransactionDataKeys;
+import com.example.noteapplication.constants.NoteTransactionDataKeys;
 import com.example.noteapplication.databinding.FragmentNotificationDialogBinding;
 import com.example.noteapplication.ui.NoteDateSelectionIndexSaver;
 import com.example.noteapplication.utils.NoteUtils;
@@ -79,7 +79,7 @@ public class NoteNotificationDialogFragment extends DialogFragment {
         pickedFullDate = NoteUtils.DateManipulator.getCurrentFullDate();
 
         long plannedNotificationDate = requireArguments().getLong(
-                NotiTransactionDataKeys.NOTIFICATION_SET_DATA_KEY, 0L
+                NoteTransactionDataKeys.NOTIFICATION_SET_DATA_KEY, 0L
         );
         if (plannedNotificationDate != 0) {
             Date currentNotificationDate = NoteUtils.DateManipulator.parseStringToFullDate(pickedFullDate);
@@ -88,10 +88,10 @@ public class NoteNotificationDialogFragment extends DialogFragment {
 
             if (dateDiff > 0) {
                 Toast.makeText(requireContext(), "Notification date was already set!", Toast.LENGTH_SHORT).show();
-                pickedDateIndex = requireArguments().getInt(NotiTransactionDataKeys.NOTIFICATION_DATE_SELECTION_KEY);
-                pickedHourIndex = requireArguments().getInt(NotiTransactionDataKeys.NOTIFICATION_HOUR_SELECTION_KEY);
-                pickedMinuteIndex = requireArguments().getInt(NotiTransactionDataKeys.NOTIFICATION_MINUTE_SELECTION_KEY);
-                pickedFullDate = requireArguments().getString(NotiTransactionDataKeys.NOTIFICATION_SET_DATE_STRING);
+                pickedDateIndex = requireArguments().getInt(NoteTransactionDataKeys.NOTIFICATION_DATE_SELECTION_KEY);
+                pickedHourIndex = requireArguments().getInt(NoteTransactionDataKeys.NOTIFICATION_HOUR_SELECTION_KEY);
+                pickedMinuteIndex = requireArguments().getInt(NoteTransactionDataKeys.NOTIFICATION_MINUTE_SELECTION_KEY);
+                pickedFullDate = requireArguments().getString(NoteTransactionDataKeys.NOTIFICATION_SET_DATE_STRING);
                 Log.d(TAG, pickedFullDate);
             }
         } else {

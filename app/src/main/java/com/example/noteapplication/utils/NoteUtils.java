@@ -20,18 +20,23 @@ public final class NoteUtils {
         public static String getCurrentDate() {
             return dateFormatter.format(Calendar.getInstance().getTime());
         }
+
         public static String getCurrentHour() {
             return hourFormatter.format(Calendar.getInstance().getTime());
         }
+
         public static String getCurrentMinute() {
             return minuteFormatter.format(Calendar.getInstance().getTime());
         }
+
         public static String getCurrentFullDate() {
             return fullDateFormatter.format(Calendar.getInstance().getTime());
         }
+
         public static String formatFullDate(String date, String hour, String minutes) {
             return date + " " + yearFormatter.format(Calendar.getInstance().getTime()) + " at " + hour + ":" + minutes;
         }
+
         public static String getFormattedFullDate(long date) {
             Date dateToFormat = new Date(date);
             return fullDateFormatter.format(dateToFormat);
@@ -145,6 +150,8 @@ public final class NoteUtils {
     }
 
     public static class ImportanceSelection {
+        private static final int IMPORTANCE_SELECTION_COUNT = 4;
+
         public static int getImageResourceForImportanceByString(String importance) {
             switch (importance) {
                 case "High":
@@ -184,17 +191,8 @@ public final class NoteUtils {
             }
         }
 
-        public static int getLevelForImportance(String importance) {
-            switch (importance) {
-                case "High":
-                    return 3;
-                case "Medium":
-                    return 2;
-                case "Low":
-                    return 1;
-                default:
-                    return 0;
-            }
+        public static int getImportanceLevel(int noteImportanceLevel) {
+            return IMPORTANCE_SELECTION_COUNT - (noteImportanceLevel + 1);
         }
     }
 }

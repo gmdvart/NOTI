@@ -1,9 +1,7 @@
 package com.example.noteapplication.ui;
 
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
-import androidx.lifecycle.ViewModelProvider;
 import androidx.lifecycle.viewmodel.CreationExtras;
 import androidx.lifecycle.viewmodel.ViewModelInitializer;
 import com.example.noteapplication.NoteApplication;
@@ -13,38 +11,33 @@ import static androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.APPLI
 import com.example.noteapplication.data.database.Note;
 import com.example.noteapplication.data.repository.NoteRepository;
 import kotlin.jvm.functions.Function1;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 
 public class NoteViewModel extends ViewModel {
     private final NoteRepository noteRepository;
-    private final LiveData<List<Note>> allNotes;
 
     public NoteViewModel(NoteRepository noteRepository) {
         this.noteRepository = noteRepository;
-        this.allNotes = noteRepository.getAllNotes();
-
     }
 
     public void createNote(Note note) {
         noteRepository.createNote(note);
     }
-
     public void updateNote(Note note) {
         noteRepository.updateNote(note);
     }
-
     public void deleteNote(Note note) {
         noteRepository.deleteNote(note);
     }
-
-    public LiveData<List<Note>> getAllNotes() {
-        return allNotes;
+    public LiveData<Note> readNoteById(int id) {
+        return noteRepository.readNoteById(id);
     }
-
-    public LiveData<Note> getNoteById(int id) {
-        return noteRepository.getNoteById(id);
+    public LiveData<List<Note>> readFilteredNotes(int filterKey) {
+        return noteRepository.readFilteredNotes(filterKey);
+    }
+    public LiveData<List<Note>> searchForNotes(String searchString) {
+        return noteRepository.searchNotes(searchString);
     }
 
     public static final ViewModelInitializer<NoteViewModel> initializer = new ViewModelInitializer<>(
