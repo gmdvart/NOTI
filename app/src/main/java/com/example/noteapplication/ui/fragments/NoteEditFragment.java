@@ -1,6 +1,7 @@
 package com.example.noteapplication.ui.fragments;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.*;
 import android.widget.*;
 import androidx.annotation.NonNull;

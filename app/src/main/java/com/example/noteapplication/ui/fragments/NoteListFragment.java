@@ -59,8 +59,6 @@ public class NoteListFragment extends Fragment implements MenuProvider, PopupMen
         SharedPreferences layoutPreferences = requireActivity().getSharedPreferences(NotePreferences.LAYOUT_PREFERENCES_NAME, Context.MODE_PRIVATE);
         isLinearLayoutSelected = layoutPreferences.getBoolean(NotePreferences.LAYOUT_TYPE_KEY, true);
         layoutPreferencesEditor = layoutPreferences.edit();
-
-        Log.d(TAG, "onCreate, isLinearLayoutSelected: " + isLinearLayoutSelected);
     }
 
     @Override

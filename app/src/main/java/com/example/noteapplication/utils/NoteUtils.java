@@ -143,9 +143,7 @@ public final class NoteUtils {
         }
 
         private static boolean calendarDatesAreNotEqual(Calendar currentCalendar, Calendar setCalendar) {
-            return currentCalendar.get(Calendar.MONTH) != setCalendar.get(Calendar.MONTH) ||
-                    currentCalendar.get(Calendar.DAY_OF_MONTH) != setCalendar.get(Calendar.DAY_OF_MONTH) ||
-                    currentCalendar.get(Calendar.HOUR_OF_DAY) != setCalendar.get(Calendar.HOUR_OF_DAY);
+            return setCalendar.getTimeInMillis() > currentCalendar.getTimeInMillis();
         }
     }
 

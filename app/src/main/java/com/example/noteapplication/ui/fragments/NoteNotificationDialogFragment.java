@@ -21,6 +21,7 @@ import com.example.noteapplication.ui.NoteDateSelectionIndexSaver;
 import com.example.noteapplication.utils.NoteUtils;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Arrays;
 import java.util.Date;
 
 public class NoteNotificationDialogFragment extends DialogFragment {
@@ -87,12 +88,10 @@ public class NoteNotificationDialogFragment extends DialogFragment {
             long dateDiff = plannedNotificationDate - currentNotificationDateInMillis;
 
             if (dateDiff > 0) {
-                Toast.makeText(requireContext(), "Notification date was already set!", Toast.LENGTH_SHORT).show();
-                pickedDateIndex = requireArguments().getInt(NoteTransactionDataKeys.NOTIFICATION_DATE_SELECTION_KEY);
-                pickedHourIndex = requireArguments().getInt(NoteTransactionDataKeys.NOTIFICATION_HOUR_SELECTION_KEY);
-                pickedMinuteIndex = requireArguments().getInt(NoteTransactionDataKeys.NOTIFICATION_MINUTE_SELECTION_KEY);
+                cachedDateIndex = requireArguments().getInt(NoteTransactionDataKeys.NOTIFICATION_DATE_SELECTION_KEY);
+                cachedHourIndex = requireArguments().getInt(NoteTransactionDataKeys.NOTIFICATION_HOUR_SELECTION_KEY);
+                cachedMinuteIndex = requireArguments().getInt(NoteTransactionDataKeys.NOTIFICATION_MINUTE_SELECTION_KEY);
                 pickedFullDate = requireArguments().getString(NoteTransactionDataKeys.NOTIFICATION_SET_DATE_STRING);
-                Log.d(TAG, pickedFullDate);
             }
         } else {
             _binding.notificationSwitcher.setVisibility(View.GONE);
@@ -120,13 +119,10 @@ public class NoteNotificationDialogFragment extends DialogFragment {
 
     private void setupHourPicker() {
         hours = NoteUtils.DateManipulator.getHourPicker(pickedFullDate);
-        if (hours.length == 1) {
-            _binding.notificationHourPicker.setValue(0);
-        } else {
-            _binding.notificationHourPicker.setMinValue(0);
-            _binding.notificationHourPicker.setMaxValue(hours.length - 1);
-        }
         _binding.notificationHourPicker.setDisplayedValues(hours);
+        _binding.notificationHourPicker.setValue(0);
+        _binding.notificationHourPicker.setMaxValue(hours.length - 1);
+        _binding.notificationHourPicker.setMinValue(0);
         _binding.notificationHourPicker.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
             @Override
             public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
@@ -138,16 +134,15 @@ public class NoteNotificationDialogFragment extends DialogFragment {
                 setupMinutePicker();
             }
         });
+        pickedHourIndex = _binding.notificationHourPicker.getValue();
+        pickedHour = hours[pickedHourIndex];
     }
 
     private void setupMinutePicker() {
         minutes = NoteUtils.DateManipulator.getMinutePicker(pickedFullDate);
-        if (minutes.length == 1) {
-            _binding.notificationMinutePicker.setValue(0);
-        } else {
-            _binding.notificationMinutePicker.setMinValue(0);
-            _binding.notificationMinutePicker.setMaxValue(minutes.length - 1);
-        }
+        _binding.notificationMinutePicker.setValue(0);
+        _binding.notificationMinutePicker.setMinValue(0);
+        _binding.notificationMinutePicker.setMaxValue(minutes.length - 1);
         _binding.notificationMinutePicker.setDisplayedValues(minutes);
         _binding.notificationMinutePicker.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
             @Override
@@ -159,20 +154,22 @@ public class NoteNotificationDialogFragment extends DialogFragment {
                 notifyLocalDateChanged();
             }
         });
+        pickedMinuteIndex = _binding.notificationMinutePicker.getValue();
+        pickedMinute = minutes[pickedMinuteIndex];
     }
 
     private void prepareDateSelectionIndices() {
-        if (pickedDateIndex < dates.length) {
-            _binding.notificationDatePicker.setValue(pickedDateIndex);
-            pickedDate = _binding.notificationDatePicker.getDisplayedValues()[pickedDateIndex];
+        if (cachedDateIndex < dates.length) {
+            _binding.notificationDatePicker.setValue(cachedDateIndex);
+            pickedDate = _binding.notificationDatePicker.getDisplayedValues()[cachedDateIndex];
         }
-        if (pickedHourIndex < hours.length) {
-            _binding.notificationHourPicker.setValue(pickedHourIndex);
-            pickedHour = _binding.notificationHourPicker.getDisplayedValues()[pickedHourIndex];
+        if (cachedHourIndex < hours.length) {
+            _binding.notificationHourPicker.setValue(cachedHourIndex);
+            pickedHour = _binding.notificationHourPicker.getDisplayedValues()[cachedHourIndex];
         }
-        if (pickedMinuteIndex < minutes.length) {
-            _binding.notificationMinutePicker.setValue(pickedMinuteIndex);
-            pickedMinute = _binding.notificationMinutePicker.getDisplayedValues()[pickedMinuteIndex];
+        if (cachedMinuteIndex < minutes.length) {
+            _binding.notificationMinutePicker.setValue(cachedMinuteIndex);
+            pickedMinute = _binding.notificationMinutePicker.getDisplayedValues()[cachedMinuteIndex];
         }
     }
 
@@ -197,7 +194,7 @@ public class NoteNotificationDialogFragment extends DialogFragment {
                     pickedDateIndex = cachedDateIndex;
                     pickedHourIndex = cachedHourIndex;
                     pickedMinuteIndex = cachedMinuteIndex;
-
+                    notifyLocalDateChanged();
                     notificationDateListener.onSubmitDatePick(
                             pickedFullDate,
                             _binding.notificationSwitcher.isChecked(),
