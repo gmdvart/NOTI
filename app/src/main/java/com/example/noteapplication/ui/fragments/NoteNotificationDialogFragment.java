@@ -34,7 +34,9 @@ public class NoteNotificationDialogFragment extends DialogFragment {
 
     private String[] dates;
     private String[] hours;
+    private int hoursCachedLength = 0;
     private String[] minutes;
+    private int minuteCachedLength = 0;
     private String pickedDate;
     private int pickedDateIndex = 0, cachedDateIndex = 0;
     private String pickedHour;
@@ -100,9 +102,11 @@ public class NoteNotificationDialogFragment extends DialogFragment {
 
     private void setupDatePicker() {
         dates = NoteUtils.DateManipulator.getDatePickers();
+
         _binding.notificationDatePicker.setMinValue(0);
         _binding.notificationDatePicker.setMaxValue(dates.length - 1);
         _binding.notificationDatePicker.setDisplayedValues(dates);
+
         _binding.notificationDatePicker.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
             @Override
             public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
@@ -119,10 +123,15 @@ public class NoteNotificationDialogFragment extends DialogFragment {
 
     private void setupHourPicker() {
         hours = NoteUtils.DateManipulator.getHourPicker(pickedFullDate);
-        _binding.notificationHourPicker.setDisplayedValues(hours);
+
+        if (hoursCachedLength != hours.length) hoursCachedLength = hours.length;
+        else return;
+
         _binding.notificationHourPicker.setValue(0);
         _binding.notificationHourPicker.setMaxValue(hours.length - 1);
         _binding.notificationHourPicker.setMinValue(0);
+        _binding.notificationHourPicker.setDisplayedValues(hours);
+
         _binding.notificationHourPicker.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
             @Override
             public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
@@ -134,16 +143,22 @@ public class NoteNotificationDialogFragment extends DialogFragment {
                 setupMinutePicker();
             }
         });
+
         pickedHourIndex = _binding.notificationHourPicker.getValue();
         pickedHour = hours[pickedHourIndex];
     }
 
     private void setupMinutePicker() {
         minutes = NoteUtils.DateManipulator.getMinutePicker(pickedFullDate);
+
+        if (minuteCachedLength != minutes.length) minuteCachedLength = minutes.length;
+        else return;
+
         _binding.notificationMinutePicker.setValue(0);
-        _binding.notificationMinutePicker.setMinValue(0);
         _binding.notificationMinutePicker.setMaxValue(minutes.length - 1);
+        _binding.notificationMinutePicker.setMinValue(0);
         _binding.notificationMinutePicker.setDisplayedValues(minutes);
+
         _binding.notificationMinutePicker.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
             @Override
             public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
@@ -154,6 +169,7 @@ public class NoteNotificationDialogFragment extends DialogFragment {
                 notifyLocalDateChanged();
             }
         });
+
         pickedMinuteIndex = _binding.notificationMinutePicker.getValue();
         pickedMinute = minutes[pickedMinuteIndex];
     }

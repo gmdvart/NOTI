@@ -1,4 +1,3 @@
-
 <resources>
     <style name="NoteAppTheme" parent="Theme.Material3.Light.NoActionBar">
         <item name="colorPrimary">@color/md_theme_light_primary</item>
@@ -30,5 +29,12 @@
 
         <item name="android:statusBarColor">?attr/colorSurface</item>
         <item name="android:windowLightStatusBar">true</item>
+    </style>
+
+    <style name="NoteAppTheme.Start" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">@color/md_theme_light_surface</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/ic_launcher_foreground</item>
+        <item name="windowSplashScreenAnimationDuration">1000</item>
+        <item name="postSplashScreenTheme">@style/NoteAppTheme</item>
     </style>
 </resources>

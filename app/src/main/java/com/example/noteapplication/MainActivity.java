@@ -1,26 +1,19 @@
 package com.example.noteapplication;
 
-import android.util.Log;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
-import android.widget.EditText;
-import android.widget.Toast;
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
-import androidx.core.view.MenuProvider;
+import androidx.core.splashscreen.SplashScreen;
 import androidx.navigation.NavController;
-import androidx.navigation.NavDirections;
 import androidx.navigation.fragment.NavHostFragment;
 import com.example.noteapplication.databinding.ActivityMainBinding;
-import org.jetbrains.annotations.NotNull;
 
 public class MainActivity extends AppCompatActivity {
     private NavController _navController;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        SplashScreen splashScreen = SplashScreen.installSplashScreen(this);
+
         super.onCreate(savedInstanceState);
 
         ActivityMainBinding binding = ActivityMainBinding.inflate(getLayoutInflater());

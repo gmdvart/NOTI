@@ -29,6 +29,7 @@ import com.example.noteapplication.databinding.FragmentNoteListBinding;
 import com.example.noteapplication.ui.NoteViewModel;
 import com.example.noteapplication.ui.adapter.NoteListAdapter;
 import com.google.android.material.chip.ChipGroup;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
@@ -192,10 +193,13 @@ public class NoteListFragment extends Fragment implements MenuProvider, PopupMen
         searchItem.setOnActionExpandListener(new MenuItem.OnActionExpandListener() {
             final MenuItem layoutItem = menu.findItem(R.id.list_layout_item);
             final LinearLayout filterBlock = _binding.filterBlock;
+            final FloatingActionButton fab = _binding.addButton;
+
             @Override
             public boolean onMenuItemActionExpand(@NonNull MenuItem item) {
                 layoutItem.setVisible(false);
                 filterBlock.setVisibility(View.GONE);
+                fab.setVisibility(View.GONE);
                 return true;
             }
 
@@ -204,6 +208,7 @@ public class NoteListFragment extends Fragment implements MenuProvider, PopupMen
                 layoutItem.setVisible(true);
                 filterBlock.setVisibility(View.VISIBLE);
                 setFilter(lastSelectedFilter);
+                fab.setVisibility(View.VISIBLE);
                 return true;
             }
         });
