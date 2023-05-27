@@ -8,7 +8,7 @@ import com.example.noteapplication.ui.NoteDateSelectionIndexSaver;
 
 @Entity(tableName = "notes")
 public class Note {
-    @PrimaryKey(autoGenerate = true)
+    @PrimaryKey
     public int id = 0;
     @ColumnInfo(name = "importance_level")
     public int importanceLevel;

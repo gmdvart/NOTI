@@ -17,6 +17,8 @@ import androidx.navigation.NavController;
 import androidx.navigation.NavDirections;
 import androidx.navigation.fragment.NavHostFragment;
 import com.example.noteapplication.R;
+import com.example.noteapplication.constants.NoteFilterKeys;
+import com.example.noteapplication.constants.NoteNotificationsKeys;
 import com.example.noteapplication.constants.NoteTransactionDataKeys;
 import com.example.noteapplication.data.database.Note;
 import com.example.noteapplication.databinding.FragmentNoteEditBinding;
@@ -26,7 +28,9 @@ import com.example.noteapplication.ui.adapter.NoteImportanceSelectionAdapter;
 import com.example.noteapplication.utils.NoteUtils;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 
 public class NoteEditFragment extends Fragment implements MenuProvider, NoteNotificationDialogFragment.OnSubmitNotificationDateListener {
@@ -92,6 +96,7 @@ public class NoteEditFragment extends Fragment implements MenuProvider, NoteNoti
         setupImportanceOptions();
         setupDateField();
 
+        // If we're already have a note
         if (navArgs.getNoteId() != -1) {
             viewModel.readNoteById(navArgs.getNoteId()).observe(getViewLifecycleOwner(), new Observer<Note>() {
                 @Override
@@ -180,22 +185,15 @@ public class NoteEditFragment extends Fragment implements MenuProvider, NoteNoti
     private void createOrUpdateNote(boolean isUpdate) {
         int importanceLevel = selectedImportanceLevel;
         int notificationDateInSecs = (int) (notificationDateInMillis / 1000);
+
         String title = Objects.requireNonNull(_binding.noteEditTitle.getText()).toString();
         String description = Objects.requireNonNull(_binding.noteEditDescription.getText()).toString();
 
         Note note;
-        if (isUpdate) note = selectedNote;
-        else note = new Note();
+        if (!isUpdate) note = new Note();
+        else note = selectedNote ;
 
-        note.importanceLevel = NoteUtils.ImportanceSelection.getImportanceLevel(importanceLevel);
-
-        if (notificationDateInSecs != Integer.MAX_VALUE) {
-            note.notificationDate = notificationDateInSecs;
-            note.indices = dateSelectionIndices;
-        } else {
-            note.notificationDate = 0;
-            note.indices = new NoteDateSelectionIndexSaver(0, 0, 0);
-        }
+        if (!isUpdate) note.id = (int) Calendar.getInstance().getTimeInMillis();
 
         if (!title.isEmpty()) note.title = title;
         else note.title = "";
@@ -203,14 +201,25 @@ public class NoteEditFragment extends Fragment implements MenuProvider, NoteNoti
         if (!description.isEmpty()) note.description = description;
         else note.description = "";
 
+        note.importanceLevel = NoteUtils.ImportanceSelection.getImportanceLevel(importanceLevel);
+
         if (!isUpdate) {
             String todayDateString = NoteUtils.DateManipulator.getCurrentFullDate();
             Date todayDate = NoteUtils.DateManipulator.parseStringToFullDate(todayDateString);
             note.creationDate = (int) (NoteUtils.DateManipulator.getDateTimeInMillis(todayDate) / 1000);
         }
 
-        if (isUpdate) viewModel.updateNote(note);
-        else viewModel.createNote(note);
+        if (notificationDateInSecs != NoteNotificationsKeys.WITHOUT_NOTIFICATION) {
+            note.notificationDate = notificationDateInSecs;
+            note.indices = dateSelectionIndices;
+            viewModel.setNotificationOnNote(note);
+        } else {
+            note.notificationDate = NoteNotificationsKeys.WITHOUT_NOTIFICATION;
+            note.indices = new NoteDateSelectionIndexSaver(0, 0, 0);
+        }
+
+        if (!isUpdate) viewModel.createNote(note);
+        else viewModel.updateNote(note);
     }
 
     @Override

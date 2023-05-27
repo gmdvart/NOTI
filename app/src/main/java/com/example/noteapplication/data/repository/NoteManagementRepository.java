@@ -1,5 +1,6 @@
 package com.example.noteapplication.data.repository;
 
+import android.util.Log;
 import androidx.lifecycle.LiveData;
 import com.example.noteapplication.data.database.Note;
 import com.example.noteapplication.data.database.NoteDao;

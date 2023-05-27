@@ -128,8 +128,10 @@ public class NoteNotificationDialogFragment extends DialogFragment {
         else return;
 
         _binding.notificationHourPicker.setValue(0);
-        _binding.notificationHourPicker.setMaxValue(hours.length - 1);
-        _binding.notificationHourPicker.setMinValue(0);
+        if (hours.length != 1) {
+            _binding.notificationHourPicker.setMaxValue(hours.length - 1);
+            _binding.notificationHourPicker.setMinValue(0);
+        }
         _binding.notificationHourPicker.setDisplayedValues(hours);
 
         _binding.notificationHourPicker.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
@@ -155,8 +157,10 @@ public class NoteNotificationDialogFragment extends DialogFragment {
         else return;
 
         _binding.notificationMinutePicker.setValue(0);
-        _binding.notificationMinutePicker.setMaxValue(minutes.length - 1);
-        _binding.notificationMinutePicker.setMinValue(0);
+        if (minutes.length != 1) {
+            _binding.notificationMinutePicker.setMaxValue(minutes.length - 1);
+            _binding.notificationMinutePicker.setMinValue(0);
+        }
         _binding.notificationMinutePicker.setDisplayedValues(minutes);
 
         _binding.notificationMinutePicker.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {

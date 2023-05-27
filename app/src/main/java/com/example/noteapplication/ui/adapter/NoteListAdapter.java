@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.noteapplication.R;
+import com.example.noteapplication.constants.NoteNotificationsKeys;
 import com.example.noteapplication.data.database.Note;
 import com.example.noteapplication.databinding.NoteListItemBinding;
 import com.example.noteapplication.utils.NoteUtils;
@@ -46,13 +47,13 @@ public class NoteListAdapter extends ListAdapter<Note, NoteListAdapter.NoteViewH
                     )
             );
 
-            if (note.notificationDate != 0) {
+            if (note.notificationDate != NoteNotificationsKeys.WITHOUT_NOTIFICATION) {
                 String formattedNotificationDate = NoteUtils.DateManipulator.getFormattedFullDate(note.notificationDate * 1000L);
                 String notificationText = context.getString(R.string.notify_on, formattedNotificationDate);
                 binding.noteNotifyDate.setText(notificationText);
                 binding.noteNotifyDate.setVisibility(View.VISIBLE);
-            }
-            else binding.noteNotifyDate.setVisibility(View.GONE);
+            } else
+                binding.noteNotifyDate.setVisibility(View.GONE);
 
             binding.noteTitle.setText(note.title);
             binding.noteDescription.setText(note.description);

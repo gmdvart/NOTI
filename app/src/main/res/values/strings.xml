@@ -55,6 +55,6 @@
     <string name="notification_never">Never</string>
     <string name="notification_time">Time</string>
     <string name="notification_title">Set a day and time</string>
-    <string name="notify_on">Notify on %s</string>
+    <string name="notify_on">Notify %s</string>
     <string name="created_at">Created at %s</string>
 </resources>

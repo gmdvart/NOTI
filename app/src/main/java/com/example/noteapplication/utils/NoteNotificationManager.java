@@ -25,7 +25,7 @@ public final class NoteNotificationManager {
 
     private final Context context;
 
-    NoteNotificationManager(final Context context) {
+    public NoteNotificationManager(final Context context) {
         this.context = context;
     }
 
@@ -36,18 +36,17 @@ public final class NoteNotificationManager {
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
         PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
-        Bitmap icon = BitmapFactory.decodeResource(context.getResources(), R.drawable.ic_launcher_foreground);
 
         Notification notification = new NotificationCompat.Builder(context, CHANNEL_ID)
-                .setLargeIcon(icon)
-                .setContentTitle("Time to check your Note!")
-                .setContentText("Some text...")
+                .setSmallIcon(R.drawable.ic_launcher_foreground)
+                .setContentTitle(title)
+                .setContentText(description)
+                .setPriority(NotificationCompat.PRIORITY_HIGH)
                 .setContentIntent(pendingIntent)
-                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                 .build();
 
         if (ActivityCompat.checkSelfPermission(context, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
-            Toast.makeText(context, "Permission is not granted", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "Post Notifications is not granted", Toast.LENGTH_SHORT).show();
             return;
         }
         NotificationManagerCompat.from(context).notify(NOTIFICATION_ID, notification);

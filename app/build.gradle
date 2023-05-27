@@ -52,6 +52,8 @@ dependencies {
     implementation "androidx.navigation:navigation-fragment:2.5.3"
     // SplashScreen
     implementation "androidx.core:core-splashscreen:1.0.0-beta02"
+    // Gson
+    implementation 'com.google.code.gson:gson:2.10.1'
 
     testImplementation 'junit:junit:4.13.2'
     // Room testing
