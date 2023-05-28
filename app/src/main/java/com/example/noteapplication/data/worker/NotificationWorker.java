@@ -48,7 +48,7 @@ public class NotificationWorker extends Worker {
         NoteRepository repository = container.getNoteRepository();
 
         note.notificationDate = NoteNotificationsKeys.WITHOUT_NOTIFICATION;
-        note.indices = new NoteDateSelectionIndexSaver(0, 0, 0);
+        note.indices = new NoteDateSelectionIndexSaver(0,    0, 0);
 
         repository.updateNote(note);
     }
