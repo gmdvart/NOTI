@@ -2,9 +2,12 @@ package com.example.noteapplication.ui.fragments;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Rect;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.*;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.view.animation.LayoutAnimationController;
 import android.widget.LinearLayout;
 import android.widget.PopupMenu;
 import androidx.annotation.NonNull;
@@ -20,7 +23,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.NavDirections;
 import androidx.navigation.fragment.NavHostFragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.*;
 import com.example.noteapplication.R;
 import com.example.noteapplication.constants.NoteFilterKeys;
 import com.example.noteapplication.constants.NotePreferences;
@@ -88,15 +91,6 @@ public class NoteListFragment extends Fragment implements MenuProvider, PopupMen
         setupChipMenu();
     }
 
-    private void chooseLayout() {
-
-    }
-
-    private void setIcon(MenuItem menuItem) {
-        if (isLinearLayoutSelected) menuItem.setIcon(R.drawable.ic_grid);
-        else menuItem.setIcon(R.drawable.ic_list);
-    }
-
     private void setupFab() {
         _binding.addButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -112,7 +106,15 @@ public class NoteListFragment extends Fragment implements MenuProvider, PopupMen
     }
 
     private void setupRecyclerView() {
-        _binding.recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
+        _binding.recyclerView.setPadding(12, 0, 12, 12);
+        chooseLayout();
+        _binding.recyclerView.addItemDecoration(new RecyclerView.ItemDecoration() {
+            @Override
+            public void getItemOffsets(@NotNull Rect outRect, @NotNull View view, @NotNull RecyclerView parent, @NotNull RecyclerView.State state) {
+                outRect.set(8, 8, 8, 8);
+            }
+        });
+
         adapter = new NoteListAdapter(new NoteListAdapter.OnNoteClickListener() {
             @Override
             public void onClick(int noteId) {
@@ -126,7 +128,20 @@ public class NoteListFragment extends Fragment implements MenuProvider, PopupMen
             }
         });
         _binding.recyclerView.setAdapter(adapter);
+
         setFilter(NoteFilterKeys.DEFAULT);
+    }
+
+    private void chooseLayout() {
+        if (isLinearLayoutSelected) {
+            _binding.recyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
+        } else {
+            _binding.recyclerView.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
+        }
+
+        Animation layoutAnimation = AnimationUtils.loadAnimation(requireContext(), R.anim.fade_in);
+        LayoutAnimationController controller = new LayoutAnimationController(layoutAnimation);
+        _binding.recyclerView.setLayoutAnimation(controller);
     }
 
     private void navigateToNoteWithId(int id) {
@@ -237,10 +252,16 @@ public class NoteListFragment extends Fragment implements MenuProvider, PopupMen
         });
     }
 
+    private void setIcon(MenuItem menuItem) {
+        if (isLinearLayoutSelected) menuItem.setIcon(R.drawable.ic_grid);
+        else menuItem.setIcon(R.drawable.ic_list);
+    }
+
     @Override
     public boolean onMenuItemSelected(@NotNull MenuItem menuItem) {
         if (menuItem.getItemId() == R.id.list_layout_item) {
             isLinearLayoutSelected = !isLinearLayoutSelected;
+            chooseLayout();
             savePreferences();
             setIcon(menuItem);
             return true;
