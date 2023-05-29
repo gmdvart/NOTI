@@ -33,30 +33,30 @@
         Vestibulum tellus mauris, efficitur in ligula non, ullamcorper accumsan purus. Sed lorem lacus, aliquet vitae
         leo quis, tempor eleifend.
     </string>
-    <string name="search">Search</string>
-    <string name="search_hint">Search for Notes…</string>
-    <string name="layout">Change Layout</string>
-    <string name="delete">Delete</string>
-    <string name="importance">Importance</string>
-    <string name="notification">Notification</string>
-    <string name="creation_date">Creation date</string>
-    <string name="filter_by">Filter by</string>
-    <string name="done">Done</string>
-    <string name="edit_title">Title…</string>
-    <string name="edit_description">Description…</string>
-    <string name="note_title">Note Title</string>
-    <string name="description">Description</string>
-    <string name="alphabet">A to Z</string>
-    <string name="add_note">Add note</string>
-    <string name="importance_field">Importance</string>
-    <string name="importance_none">None</string>
-    <string name="importance_low">Low</string>
-    <string name="importance_medium">Medium</string>
-    <string name="importance_high">High</string>
-    <string name="notification_field">Notification</string>
-    <string name="notification_never">Never</string>
+    <string name="search">Поиск</string>
+    <string name="search_hint">Искать Заметки…</string>
+    <string name="layout">Изменить Отображение</string>
+    <string name="delete">Удалить</string>
+    <string name="importance">Важности</string>
+    <string name="notification">Уведомлению</string>
+    <string name="creation_date">Дате создания</string>
+    <string name="filter_by">Фильтровать по</string>
+    <string name="done">Готово</string>
+    <string name="edit_title">Заголовок…</string>
+    <string name="edit_description">Описание…</string>
+    <string name="note_title">Заголовок</string>
+    <string name="description">Описание</string>
+    <string name="alphabet">Алфавиту (от А до Я)</string>
+    <string name="add_note">Добавить заметку</string>
+    <string name="importance_field">Важность</string>
+    <string name="importance_none">Отсутствует</string>
+    <string name="importance_low">Низкая</string>
+    <string name="importance_medium">Средняя</string>
+    <string name="importance_high">Высокая</string>
+    <string name="notification_field">Уведомить</string>
+    <string name="notification_never">Никогда</string>
     <string name="notification_time">Time</string>
-    <string name="notification_title">Set a day and time</string>
-    <string name="notify_on">Notify %s</string>
-    <string name="created_at">Created %s</string>
+    <string name="notification_title">Установите дату и время</string>
+    <string name="notify_on">Уведомить %s</string>
+    <string name="created_at">Создано %s</string>
 </resources>

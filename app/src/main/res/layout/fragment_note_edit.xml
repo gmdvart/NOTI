@@ -50,14 +50,14 @@
         <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/importance"
+                android:hint="@string/importance_field"
                 style="@style/Widget.Material3.TextInputLayout.OutlinedBox.ExposedDropdownMenu">
 
             <AutoCompleteTextView
                     android:id="@+id/note_edit_importance"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:contentDescription="@string/importance"
+                    android:contentDescription="@string/importance_field"
                     android:lines="1"
                     android:text="@string/importance_none"
                     android:inputType="none"/>
@@ -86,7 +86,7 @@
                 android:id="@+id/note_edit_date_layout"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:hint="@string/notification"
+                android:hint="@string/notification_field"
                 android:layout_weight="1"
                 style="@style/Widget.Material3.TextInputLayout.OutlinedBox">
 

@@ -1,5 +1,6 @@
 package com.example.noteapplication.utils;
 
+import android.content.Context;
 import android.util.Log;
 import com.example.noteapplication.R;
 
@@ -150,17 +151,15 @@ public final class NoteUtils {
     public static class ImportanceSelection {
         private static final int IMPORTANCE_SELECTION_COUNT = 4;
 
-        public static int getImageResourceForImportanceByString(String importance) {
-            switch (importance) {
-                case "High":
-                    return R.drawable.ic_importance_high;
-                case "Medium":
-                    return R.drawable.ic_importance_medium;
-                case "Low":
-                    return R.drawable.ic_importance_low;
-                default:
-                    return R.drawable.ic_importance_none;
-            }
+        public static int getImageResourceForImportanceByString(Context context, String importance) {
+            String importanceHigh = context.getString(R.string.importance_high);
+            String importanceMedium = context.getString(R.string.importance_medium);
+            String importanceLow = context.getString(R.string.importance_low);
+
+            if (Objects.equals(importance, importanceHigh)) return R.drawable.ic_importance_high;
+            else if (Objects.equals(importance, importanceMedium)) return R.drawable.ic_importance_medium;
+            else if (Objects.equals(importance, importanceLow)) return R.drawable.ic_importance_low;
+            else return R.drawable.ic_importance_none;
         }
 
         public static int getImageResourceForImportanceByLevel(int level) {

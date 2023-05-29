@@ -129,7 +129,7 @@ public class NoteEditFragment extends Fragment implements MenuProvider, NoteNoti
     private void setImportance(String importance, int level) {
         selectedImportanceLevel = level;
         _binding.noteMenuItemIndicator
-                .setImageResource(NoteUtils.ImportanceSelection.getImageResourceForImportanceByString(importance));
+                .setImageResource(NoteUtils.ImportanceSelection.getImageResourceForImportanceByString(requireContext(), importance));
     }
 
     private void setupDateField() {

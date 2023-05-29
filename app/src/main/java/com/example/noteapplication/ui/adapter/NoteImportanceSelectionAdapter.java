@@ -28,7 +28,7 @@ public class NoteImportanceSelectionAdapter extends ArrayAdapter<String> {
         TextView textView = convertView.findViewById(R.id.note_menu_item_text);
         textView.setText(importance);
         ImageView imageView = convertView.findViewById(R.id.note_menu_item_indicator);
-        imageView.setImageResource(NoteUtils.ImportanceSelection.getImageResourceForImportanceByString(importance));
+        imageView.setImageResource(NoteUtils.ImportanceSelection.getImageResourceForImportanceByString(parent.getContext(), importance));
 
         return convertView;
     }
