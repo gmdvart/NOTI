@@ -37,26 +37,35 @@
     <string name="search_hint">Search for Notes…</string>
     <string name="layout">Change Layout</string>
     <string name="delete">Delete</string>
+
+    <string name="filter_by">Filter by</string>
     <string name="importance">Importance</string>
     <string name="notification">Notification</string>
     <string name="creation_date">Creation date</string>
-    <string name="filter_by">Filter by</string>
+    <string name="alphabet">A to Z</string>
+
     <string name="done">Done</string>
     <string name="edit_title">Title…</string>
     <string name="edit_description">Description…</string>
     <string name="note_title">Note Title</string>
     <string name="description">Description</string>
-    <string name="alphabet">A to Z</string>
     <string name="add_note">Add note</string>
+
     <string name="importance_field">Importance</string>
     <string name="importance_none">None</string>
     <string name="importance_low">Low</string>
     <string name="importance_medium">Medium</string>
     <string name="importance_high">High</string>
+
     <string name="notification_field">Notification</string>
     <string name="notification_never">Never</string>
     <string name="notification_time">Time</string>
     <string name="notification_title">Set a day and time</string>
+    <string name="notification_set">Set</string>
+    <string name="notification_cancel">Cancel</string>
+
+    <string name="date_format">EEE, MMM d \'at\' HH:mm</string>
+
     <string name="notify_on">Notify %s</string>
     <string name="created_at">Created %s</string>
 </resources>

@@ -17,6 +17,12 @@ public final class NoteUtils {
         private static SimpleDateFormat hourFormatter = new SimpleDateFormat("HH", Locale.getDefault());
         private static SimpleDateFormat minuteFormatter = new SimpleDateFormat("mm", Locale.getDefault());
         private static SimpleDateFormat fullDateFormatter = new SimpleDateFormat("EEE, MMM d yyyy 'at' HH:mm", Locale.getDefault());
+        private static SimpleDateFormat displayedDateFormatter = new SimpleDateFormat("EEE, MMM d 'at' HH:mm", Locale.getDefault());
+        private static SimpleDateFormat getDisplayedDateFormatter(final Context context) {
+            String dateFormatPattern = context.getString(R.string.date_format);
+            Log.d(TAG, "extracted date pattern: " + dateFormatPattern);
+            return new SimpleDateFormat(dateFormatPattern, Locale.getDefault());
+        }
 
         public static String getCurrentDate() {
             return dateFormatter.format(Calendar.getInstance().getTime());
@@ -37,10 +43,13 @@ public final class NoteUtils {
         public static String formatFullDate(String date, String hour, String minutes) {
             return date + " " + yearFormatter.format(Calendar.getInstance().getTime()) + " at " + hour + ":" + minutes;
         }
-
         public static String getFormattedFullDate(long date) {
             Date dateToFormat = new Date(date);
             return fullDateFormatter.format(dateToFormat);
+        }
+        public static String getFormattedDisplayedDate(Context context, long date) {
+            Date dateToFormat = new Date(date);
+            return getDisplayedDateFormatter(context).format(dateToFormat);
         }
 
         public static Date parseStringToFullDate(String date) {

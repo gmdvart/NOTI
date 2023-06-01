@@ -69,8 +69,8 @@ public class NoteNotificationDialogFragment extends DialogFragment {
         AlertDialog.Builder builder = new AlertDialog.Builder(requireActivity())
                 .setTitle(R.string.notification_title)
                 .setView(_binding.getRoot())
-                .setNegativeButton("Cancel", null)
-                .setPositiveButton("Set", null);
+                .setNegativeButton(getString(R.string.notification_cancel), null)
+                .setPositiveButton(getString(R.string.notification_set), null);
 
         return builder.create();
     }

@@ -21,6 +21,8 @@ public class NoteNotificationRepository {
         String workTag = Integer.toString(note.id);
         int timeDiff = note.notificationDate - note.creationDate;
 
+        Log.d("NoteNotificationRepository","timeDiff: " + timeDiff);
+
         OneTimeWorkRequest notificationRequest = new OneTimeWorkRequest.Builder(NotificationWorker.class)
                 .setInputData(inputData)
                 .addTag(workTag)

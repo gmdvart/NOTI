@@ -48,7 +48,7 @@ public class NoteListAdapter extends ListAdapter<Note, NoteListAdapter.NoteViewH
             );
 
             if (note.notificationDate != NoteNotificationsKeys.WITHOUT_NOTIFICATION) {
-                String formattedNotificationDate = NoteUtils.DateManipulator.getFormattedFullDate(note.notificationDate * 1000L);
+                String formattedNotificationDate = NoteUtils.DateManipulator.getFormattedDisplayedDate(context, note.notificationDate * 1000L);
                 String notificationText = context.getString(R.string.notify_on, formattedNotificationDate);
                 binding.noteNotifyDate.setText(notificationText);
                 binding.noteNotifyDate.setVisibility(View.VISIBLE);
@@ -57,8 +57,8 @@ public class NoteListAdapter extends ListAdapter<Note, NoteListAdapter.NoteViewH
 
             binding.noteTitle.setText(note.title);
             binding.noteDescription.setText(note.description);
-            
-            String formattedCreationDate = NoteUtils.DateManipulator.getFormattedFullDate(note.creationDate * 1000L);
+
+            String formattedCreationDate = NoteUtils.DateManipulator.getFormattedDisplayedDate(context, note.creationDate * 1000L);
             String creationText = context.getString(R.string.created_at, formattedCreationDate);
             binding.noteCreationDate.setText(creationText);
         }
