@@ -72,7 +72,7 @@ public class NoteEditFragment extends Fragment implements MenuProvider, NoteNoti
 
         viewModel = new ViewModelProvider(this, ViewModelProvider.Factory.from(NoteViewModel.initializer)).get(NoteViewModel.class);
 
-        notificationDateString = getString(R.string.notification_never); // Default notification EditText value
+        notificationDateString = getString(R.string.notification_never); // Default notification value which is used to calculate a full date (with year)
 
         return _binding.getRoot();
     }
@@ -167,9 +167,10 @@ public class NoteEditFragment extends Fragment implements MenuProvider, NoteNoti
         if (notificationDateInSecs != 0) {
             notificationDateInMillis = notificationDateInSecs * 1000L;
             String formattedFullDate = NoteUtils.DateManipulator.getFormattedFullDate(notificationDateInMillis);
+            String formattedDisplayedDate = NoteUtils.DateManipulator.getFormattedDisplayedDate(requireContext(), notificationDateInMillis);
 
             notificationDateString = formattedFullDate;
-            _binding.noteEditNotificationDate.setText(formattedFullDate);
+            _binding.noteEditNotificationDate.setText(formattedDisplayedDate);
 
             dateSelectionIndices = new NoteDateSelectionIndexSaver(
                     note.indices.getDateSelectionIndex(),
@@ -204,8 +205,7 @@ public class NoteEditFragment extends Fragment implements MenuProvider, NoteNoti
         note.importanceLevel = NoteUtils.ImportanceSelection.getImportanceLevel(importanceLevel);
 
         if (!isUpdate) {
-            String todayDateString = NoteUtils.DateManipulator.getCurrentFullDate();
-            Date todayDate = NoteUtils.DateManipulator.parseStringToFullDate(todayDateString);
+            Date todayDate = Calendar.getInstance().getTime();
             note.creationDate = (int) (NoteUtils.DateManipulator.getDateTimeInMillis(todayDate) / 1000);
         }
 
@@ -240,19 +240,22 @@ public class NoteEditFragment extends Fragment implements MenuProvider, NoteNoti
     }
 
     @Override
-    public void onSubmitDatePick(String date, Boolean isNotificationSet, NoteDateSelectionIndexSaver dateSelection) {
+    public void onSubmitDatePick(Date date, Boolean isNotificationSet, NoteDateSelectionIndexSaver dateSelection) {
         if (!isNotificationSet) {
             _binding.noteEditNotificationDate.setText(getString(R.string.notification_never));
 
             notificationDateInMillis = 0L;
             this.dateSelectionIndices = new NoteDateSelectionIndexSaver(0, 0, 0);
         } else {
-            _binding.noteEditNotificationDate.setText(date);
+            long notifyDateInMillisToSet = NoteUtils.DateManipulator.getDateTimeInMillis(date);
 
-            Date notificationDate = NoteUtils.DateManipulator.parseStringToFullDate(date);
-            notificationDateInMillis = NoteUtils.DateManipulator.getDateTimeInMillis(notificationDate);
+            String displayedDateString = NoteUtils.DateManipulator.getFormattedDisplayedDate(requireContext(),notifyDateInMillisToSet);
+            String fullDateString = NoteUtils.DateManipulator.getFormattedFullDate(notifyDateInMillisToSet);
+            _binding.noteEditNotificationDate.setText(displayedDateString);
+
+            notificationDateInMillis = notifyDateInMillisToSet;
             this.dateSelectionIndices = dateSelection;
-            notificationDateString = date;
+            notificationDateString = fullDateString;
         }
     }
 }

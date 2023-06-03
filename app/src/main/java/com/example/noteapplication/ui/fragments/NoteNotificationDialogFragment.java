@@ -46,7 +46,7 @@ public class NoteNotificationDialogFragment extends DialogFragment {
     private String pickedFullDate;
 
     public interface OnSubmitNotificationDateListener {
-        void onSubmitDatePick(String date, Boolean isNotificationSet, NoteDateSelectionIndexSaver dateSelection);
+        void onSubmitDatePick(Date date, Boolean isNotificationSet, NoteDateSelectionIndexSaver dateSelection);
     }
     private OnSubmitNotificationDateListener notificationDateListener;
 
@@ -216,7 +216,7 @@ public class NoteNotificationDialogFragment extends DialogFragment {
                     pickedMinuteIndex = cachedMinuteIndex;
                     notifyLocalDateChanged();
                     notificationDateListener.onSubmitDatePick(
-                            pickedFullDate,
+                            NoteUtils.DateManipulator.parseStringToFullDate(pickedFullDate),
                             _binding.notificationSwitcher.isChecked(),
                             new NoteDateSelectionIndexSaver(pickedDateIndex, pickedHourIndex, pickedMinuteIndex)
                     );
