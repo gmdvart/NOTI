@@ -1,21 +1,15 @@
 package com.example.noteapplication.ui;
 
-import androidx.arch.core.util.Function;
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.Transformations;
 import androidx.lifecycle.ViewModel;
 import androidx.lifecycle.viewmodel.CreationExtras;
 import androidx.lifecycle.viewmodel.ViewModelInitializer;
-import androidx.work.WorkInfo;
-import androidx.work.WorkManager;
 import com.example.noteapplication.NoteApplication;
-import com.example.noteapplication.constants.NoteFilterKeys;
 import com.example.noteapplication.data.app.AppDataContainer;
 import static androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.APPLICATION_KEY;
 
 import com.example.noteapplication.data.database.Note;
-import com.example.noteapplication.data.repository.NoteNotificationRepository;
+import com.example.noteapplication.data.repository.NotificationRepository;
 import com.example.noteapplication.data.repository.NoteRepository;
 import kotlin.jvm.functions.Function1;
 
@@ -23,9 +17,9 @@ import java.util.List;
 
 public class NoteViewModel extends ViewModel {
     private final NoteRepository noteRepository;
-    private final NoteNotificationRepository notificationRepository;
+    private final NotificationRepository notificationRepository;
 
-    public NoteViewModel(NoteRepository noteRepository, NoteNotificationRepository notificationRepository) {
+    public NoteViewModel(NoteRepository noteRepository, NotificationRepository notificationRepository) {
         this.noteRepository = noteRepository;
         this.notificationRepository = notificationRepository;
     }
@@ -52,6 +46,9 @@ public class NoteViewModel extends ViewModel {
     public void setNotificationOnNote(Note note) {
         notificationRepository.makeNotification(note);
     }
+    public void cancelNoteNotification(int noteId) {
+        notificationRepository.cancelNotification(noteId);
+    }
 
     public static final ViewModelInitializer<NoteViewModel> initializer = new ViewModelInitializer<>(
             NoteViewModel.class, new Function1<CreationExtras, NoteViewModel>() {
@@ -62,7 +59,7 @@ public class NoteViewModel extends ViewModel {
             AppDataContainer container = application.getContainer();
 
             NoteRepository noteRepository = container.getNoteRepository();
-            NoteNotificationRepository notificationRepository = container.getNotificationRepository();
+            NotificationRepository notificationRepository = container.getNotificationRepository();
 
             return new NoteViewModel(noteRepository, notificationRepository);
         }

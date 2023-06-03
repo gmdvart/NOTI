@@ -1,7 +1,6 @@
 package com.example.noteapplication.data.repository;
 
 import android.content.Context;
-import android.util.Log;
 import androidx.work.*;
 import com.example.noteapplication.data.database.Note;
 import com.example.noteapplication.data.worker.NotificationWorker;
@@ -9,10 +8,10 @@ import com.example.noteapplication.utils.NoteGsonHelper;
 
 import java.util.concurrent.TimeUnit;
 
-public class NoteNotificationRepository {
+public class NotificationRepository {
     private final WorkManager workManager;
 
-    public NoteNotificationRepository(final Context context) {
+    public NotificationRepository(final Context context) {
         this.workManager = WorkManager.getInstance(context);
     }
 
@@ -28,6 +27,10 @@ public class NoteNotificationRepository {
                 .build();
 
         workManager.enqueue(notificationRequest);
+    }
+
+    public void cancelNotification(int noteId) {
+        workManager.cancelAllWorkByTag(Integer.toString(noteId));
     }
 
     private Data createInputDataForNotification(Note note) {

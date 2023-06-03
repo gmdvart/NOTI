@@ -278,6 +278,7 @@ public class NoteListFragment extends Fragment implements MenuProvider, PopupMen
     @Override
     public boolean onMenuItemClick(MenuItem item) {
         viewModel.deleteNote(noteToDelete);
+        viewModel.cancelNoteNotification(noteToDelete.id);
         return true;
     }
 }
