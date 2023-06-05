@@ -9,7 +9,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.NumberPicker;
-import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
@@ -21,7 +20,7 @@ import com.example.noteapplication.ui.NoteDateSelectionIndexSaver;
 import com.example.noteapplication.utils.NoteUtils;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Date;
 
 public class NoteNotificationDialogFragment extends DialogFragment {
@@ -31,6 +30,8 @@ public class NoteNotificationDialogFragment extends DialogFragment {
     public FragmentNotificationDialogBinding getBinding() {
         return _binding;
     }
+
+    // TODO Fix date selection
 
     private String[] dates;
     private String[] hours;
@@ -76,20 +77,24 @@ public class NoteNotificationDialogFragment extends DialogFragment {
     }
 
     private void setupLocalDate() {
-        pickedDate = NoteUtils.DateManipulator.getCurrentDate();
-        pickedHour = NoteUtils.DateManipulator.getCurrentHour();
-        pickedMinute = NoteUtils.DateManipulator.getCurrentMinute();
-        pickedFullDate = NoteUtils.DateManipulator.getCurrentFullDate();
+        pickedDate = NoteUtils.DateManipulator.getCurrentDateString();
+        pickedHour = NoteUtils.DateManipulator.getCurrentHourString();
+        pickedMinute = NoteUtils.DateManipulator.getCurrentMinuteString();
+        pickedFullDate = NoteUtils.DateManipulator.getCurrentFullDateString();
 
-        long plannedNotificationDate = requireArguments().getLong(
+        long plannedNotificationDateInMillis = requireArguments().getLong(
                 NoteTransactionDataKeys.NOTIFICATION_SET_DATA_KEY, 0L
         );
-        if (plannedNotificationDate != 0) {
+        if (plannedNotificationDateInMillis != 0) {
             Date currentNotificationDate = NoteUtils.DateManipulator.parseStringToFullDate(pickedFullDate);
+
             long currentNotificationDateInMillis = NoteUtils.DateManipulator.getDateTimeInMillis(currentNotificationDate);
-            long dateDiff = plannedNotificationDate - currentNotificationDateInMillis;
+            long dateDiff = plannedNotificationDateInMillis - currentNotificationDateInMillis;
 
             if (dateDiff > 0) {
+//                int plannedNotificationDateInMinutes = (int) plannedNotificationDateInMillis / 60000;
+//                int currentDateInMinutes = (int) Calendar.getInstance().getTimeInMillis() / 60000;
+
                 cachedDateIndex = requireArguments().getInt(NoteTransactionDataKeys.NOTIFICATION_DATE_SELECTION_KEY);
                 cachedHourIndex = requireArguments().getInt(NoteTransactionDataKeys.NOTIFICATION_HOUR_SELECTION_KEY);
                 cachedMinuteIndex = requireArguments().getInt(NoteTransactionDataKeys.NOTIFICATION_MINUTE_SELECTION_KEY);
@@ -128,11 +133,11 @@ public class NoteNotificationDialogFragment extends DialogFragment {
         else return;
 
         _binding.notificationHourPicker.setValue(0);
+        _binding.notificationHourPicker.setDisplayedValues(hours);
         if (hours.length != 1) {
             _binding.notificationHourPicker.setMaxValue(hours.length - 1);
             _binding.notificationHourPicker.setMinValue(0);
         }
-        _binding.notificationHourPicker.setDisplayedValues(hours);
 
         _binding.notificationHourPicker.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
             @Override
@@ -157,11 +162,11 @@ public class NoteNotificationDialogFragment extends DialogFragment {
         else return;
 
         _binding.notificationMinutePicker.setValue(0);
+        _binding.notificationMinutePicker.setDisplayedValues(minutes);
         if (minutes.length != 1) {
             _binding.notificationMinutePicker.setMaxValue(minutes.length - 1);
             _binding.notificationMinutePicker.setMinValue(0);
         }
-        _binding.notificationMinutePicker.setDisplayedValues(minutes);
 
         _binding.notificationMinutePicker.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
             @Override

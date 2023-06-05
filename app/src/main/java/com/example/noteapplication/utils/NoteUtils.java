@@ -24,19 +24,19 @@ public final class NoteUtils {
             return new SimpleDateFormat(dateFormatPattern, Locale.getDefault());
         }
 
-        public static String getCurrentDate() {
+        public static String getCurrentDateString() {
             return dateFormatter.format(Calendar.getInstance().getTime());
         }
 
-        public static String getCurrentHour() {
+        public static String getCurrentHourString() {
             return hourFormatter.format(Calendar.getInstance().getTime());
         }
 
-        public static String getCurrentMinute() {
+        public static String getCurrentMinuteString() {
             return minuteFormatter.format(Calendar.getInstance().getTime());
         }
 
-        public static String getCurrentFullDate() {
+        public static String getCurrentFullDateString() {
             return fullDateFormatter.format(Calendar.getInstance().getTime());
         }
 
@@ -129,7 +129,7 @@ public final class NoteUtils {
                     int currentMinute = currentCalendar.get(Calendar.MINUTE);
                     Calendar calendar = currentCalendar;
 
-                    if (calendarDatesAreNotEqual(currentCalendar, setCalendar)) {
+                    if (calendarHoursAreNotEqual(currentCalendar, setCalendar)) {
                         currentMinute = 0;
                         calendar = setCalendar;
                         calendar.set(Calendar.MINUTE, 0);
@@ -152,8 +152,8 @@ public final class NoteUtils {
                     currentCalendar.get(Calendar.DAY_OF_MONTH) != setCalendar.get(Calendar.DAY_OF_MONTH);
         }
 
-        private static boolean calendarDatesAreNotEqual(Calendar currentCalendar, Calendar setCalendar) {
-            return setCalendar.getTimeInMillis() > currentCalendar.getTimeInMillis();
+        private static boolean calendarHoursAreNotEqual(Calendar currentCalendar, Calendar setCalendar) {
+            return currentCalendar.get(Calendar.HOUR) != setCalendar.get(Calendar.HOUR);
         }
     }
 

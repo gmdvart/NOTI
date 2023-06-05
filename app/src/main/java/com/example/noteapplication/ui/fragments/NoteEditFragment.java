@@ -212,6 +212,7 @@ public class NoteEditFragment extends Fragment implements MenuProvider, NoteNoti
         if (notificationDateInSecs != NoteNotificationsKeys.WITHOUT_NOTIFICATION) {
             note.notificationDate = notificationDateInSecs;
             note.indices = dateSelectionIndices;
+
             viewModel.setNotificationOnNote(note);
         } else {
             note.notificationDate = NoteNotificationsKeys.WITHOUT_NOTIFICATION;
