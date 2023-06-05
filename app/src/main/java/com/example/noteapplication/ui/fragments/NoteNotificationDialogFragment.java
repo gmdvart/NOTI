@@ -92,9 +92,6 @@ public class NoteNotificationDialogFragment extends DialogFragment {
             long dateDiff = plannedNotificationDateInMillis - currentNotificationDateInMillis;
 
             if (dateDiff > 0) {
-//                int plannedNotificationDateInMinutes = (int) plannedNotificationDateInMillis / 60000;
-//                int currentDateInMinutes = (int) Calendar.getInstance().getTimeInMillis() / 60000;
-
                 cachedDateIndex = requireArguments().getInt(NoteTransactionDataKeys.NOTIFICATION_DATE_SELECTION_KEY);
                 cachedHourIndex = requireArguments().getInt(NoteTransactionDataKeys.NOTIFICATION_HOUR_SELECTION_KEY);
                 cachedMinuteIndex = requireArguments().getInt(NoteTransactionDataKeys.NOTIFICATION_MINUTE_SELECTION_KEY);

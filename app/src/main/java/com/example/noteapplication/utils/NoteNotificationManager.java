@@ -19,7 +19,7 @@ import com.example.noteapplication.R;
 
 public final class NoteNotificationManager {
     private static final String CHANNEL_ID = "NOTE_NOTIFICATION_CHANNEL_ID";
-    private static final String CHANNEL_NAME = "NOTE_NOTIFICATION_CHANNEL";
+    private static final String CHANNEL_NAME = "NOTI Notifications";
     private static final String CHANNEL_DESCRIPTION = "Note Reminder Channel";
     private static final int NOTIFICATION_ID = 2281337;
 
