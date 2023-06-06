@@ -75,7 +75,7 @@ public class NoteNotificationDialogFragment extends DialogFragment {
     }
 
     private void setLocalDate() {
-        pickedDate = NoteUtils.DateManipulator.getCurrentDateString();
+        pickedDate = NoteUtils.DateManipulator.getCurrentDateString(requireContext());
         pickedHour = NoteUtils.DateManipulator.getCurrentHourString();
         pickedMinute = NoteUtils.DateManipulator.getCurrentMinuteString();
         pickedFullDate = NoteUtils.DateManipulator.getCurrentFullDateString();
@@ -84,7 +84,7 @@ public class NoteNotificationDialogFragment extends DialogFragment {
         cachedHourIndex = NoteUtils.DateManipulator.getCurrentHour();
         cachedMinuteIndex = NoteUtils.DateManipulator.getCurrentMinute();
 
-        dates = NoteUtils.DateManipulator.getDatePickers();
+        dates = NoteUtils.DateManipulator.getDatePickers(requireContext());
 
         long plannedNotificationDateInMillis = requireArguments().getLong(
                 NoteTransactionDataKeys.NOTIFICATION_SET_DATA_KEY, 0L

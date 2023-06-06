@@ -64,7 +64,8 @@
     <string name="notification_set">Set</string>
     <string name="notification_cancel">Cancel</string>
 
-    <string name="date_format">EEE, MMM d \'at\' HH:mm</string>
+    <string name="full_date_format">EEE, MMM d \'at\' HH:mm</string>
+    <string name="date_format">EEE, MMM d</string>
 
     <string name="notify_on">Notify %s</string>
     <string name="created_at">Created %s</string>

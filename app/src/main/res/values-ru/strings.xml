@@ -64,7 +64,8 @@
     <string name="notification_set">Ок</string>
     <string name="notification_cancel">Отмена</string>
 
-    <string name="date_format">EEE, d MMM \'в\' HH:mm</string>
+    <string name="full_date_format">EEE, d MMM \'в\' HH:mm</string>
+    <string name="date_format">EEE, d MMM</string>
 
     <string name="notify_on">Уведомить %s</string>
     <string name="created_at">Создано %s</string>
