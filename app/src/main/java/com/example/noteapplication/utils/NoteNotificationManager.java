@@ -17,11 +17,13 @@ import androidx.core.app.NotificationManagerCompat;
 import com.example.noteapplication.MainActivity;
 import com.example.noteapplication.R;
 
+import java.util.Calendar;
+import java.util.Random;
+
 public final class NoteNotificationManager {
     private static final String CHANNEL_ID = "NOTE_NOTIFICATION_CHANNEL_ID";
     private static final String CHANNEL_NAME = "NOTI Notifications";
     private static final String CHANNEL_DESCRIPTION = "Note Reminder Channel";
-    private static final int NOTIFICATION_ID = 2281337;
 
     private final Context context;
 
@@ -38,6 +40,7 @@ public final class NoteNotificationManager {
         PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
 
         Notification notification = new NotificationCompat.Builder(context, CHANNEL_ID)
+                .setAutoCancel(true)
                 .setSmallIcon(R.drawable.ic_launcher_foreground)
                 .setContentTitle(title)
                 .setContentText(description)
@@ -45,11 +48,17 @@ public final class NoteNotificationManager {
                 .setContentIntent(pendingIntent)
                 .build();
 
+
         if (ActivityCompat.checkSelfPermission(context, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
             Toast.makeText(context, "Post Notifications is not granted", Toast.LENGTH_SHORT).show();
             return;
         }
-        NotificationManagerCompat.from(context).notify(NOTIFICATION_ID, notification);
+
+        long seed = Calendar.getInstance().getTimeInMillis();
+        Random random = new Random(seed);
+        int channelId = random.nextInt();
+
+        NotificationManagerCompat.from(context).notify(channelId, notification);
     }
 
     private void createNotificationChannel() {

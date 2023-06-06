@@ -33,8 +33,8 @@ public class NotificationRepository {
         workManager.enqueue(notificationRequest);
     }
 
-    public void cancelNotification(int noteId) {
-        workManager.cancelAllWorkByTag(Integer.toString(noteId));
+    public void cancelNotification(int id) {
+        workManager.cancelAllWorkByTag(Integer.toString(id));
     }
 
     private Data createInputDataForNotification(Note note) {

@@ -194,7 +194,7 @@ public class NoteEditFragment extends Fragment implements MenuProvider, NoteNoti
         if (!isUpdate) note = new Note();
         else note = selectedNote ;
 
-        if (!isUpdate) note.id = (int) Calendar.getInstance().getTimeInMillis();
+        if (!isUpdate) note.id = (int) Math.abs(Calendar.getInstance().getTimeInMillis());
 
         if (!title.isEmpty()) note.title = title;
         else note.title = "";
@@ -218,8 +218,7 @@ public class NoteEditFragment extends Fragment implements MenuProvider, NoteNoti
             note.notificationDate = NoteNotificationsKeys.WITHOUT_NOTIFICATION;
             note.indices = new NoteDateSelectionIndexSaver(0, 0, 0);
 
-            if (isUpdate)
-                viewModel.cancelNoteNotification(note.id);
+            if (isUpdate) viewModel.cancelNoteNotification(note.id);
         }
 
         if (!isUpdate) viewModel.createNote(note);

@@ -12,6 +12,9 @@ public final class NoteUtils {
     public static class DateManipulator {
         private static final String TAG = "NotiUtils.DateManipulator";
 
+        private static final int HOURS_IN_DAY = 24;
+        private static final int MINUTES_IN_HOUR = 60;
+
         private static SimpleDateFormat yearFormatter = new SimpleDateFormat("yyyy", Locale.getDefault());
         private static SimpleDateFormat dateFormatter = new SimpleDateFormat("EEE, MMM d", Locale.getDefault());
         private static SimpleDateFormat hourFormatter = new SimpleDateFormat("HH", Locale.getDefault());
@@ -20,7 +23,6 @@ public final class NoteUtils {
         private static SimpleDateFormat displayedDateFormatter = new SimpleDateFormat("EEE, MMM d 'at' HH:mm", Locale.getDefault());
         private static SimpleDateFormat getDisplayedDateFormatter(final Context context) {
             String dateFormatPattern = context.getString(R.string.date_format);
-            Log.d(TAG, "extracted date pattern: " + dateFormatPattern);
             return new SimpleDateFormat(dateFormatPattern, Locale.getDefault());
         }
 
@@ -145,6 +147,58 @@ public final class NoteUtils {
             }
 
             return minutes.toArray(new String[0]);
+        }
+
+        public static String[] getHoursInDay() {
+            List<String> hours = new ArrayList<>();
+
+            Calendar calendar = Calendar.getInstance();
+            calendar.set(Calendar.HOUR_OF_DAY, 0);
+
+            for (int i = 0; i < HOURS_IN_DAY; i++) {
+                hours.add(hourFormatter.format(calendar.getTime()));
+                calendar.add(Calendar.HOUR_OF_DAY, 1);
+            }
+
+            return hours.toArray(new String[0]);
+        }
+
+        public static String[] getMinutesInHour() {
+            List<String> minutes = new ArrayList<>();
+
+            Calendar calendar = Calendar.getInstance();
+            calendar.set(Calendar.MINUTE, 0);
+
+            for (int i = 0; i < MINUTES_IN_HOUR; i++) {
+                minutes.add(minuteFormatter.format(calendar.getTime()));
+                calendar.add(Calendar.MINUTE, 1);
+            }
+
+            return minutes.toArray(new String[0]);
+        }
+
+        public static boolean isPickedTodayDate(int pickedDateVal) {
+            return Calendar.getInstance().get(Calendar.DAY_OF_YEAR) + pickedDateVal == Calendar.getInstance().get(Calendar.DAY_OF_YEAR);
+        }
+
+        public static boolean isPickedCurrentHour(int pickedHourVal) {
+            return Calendar.getInstance().get(Calendar.HOUR_OF_DAY) == pickedHourVal;
+        }
+
+        public static int getCurrentHour() {
+            return Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
+        }
+
+        public static int getCurrentMinute() {
+            return Calendar.getInstance().get(Calendar.MINUTE);
+        }
+
+        public static int getMinHourIndex() {
+            return Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
+        }
+
+        public static int getMinMinuteIndex() {
+            return Calendar.getInstance().get(Calendar.MINUTE);
         }
 
         private static boolean calendarMonthAndDayAreNotEqual(Calendar currentCalendar, Calendar setCalendar) {
