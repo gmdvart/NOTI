@@ -26,11 +26,10 @@ public class NotificationRepository {
 
         OneTimeWorkRequest notificationRequest = new OneTimeWorkRequest.Builder(NotificationWorker.class)
                 .setInputData(inputData)
-                .addTag(workTag)
                 .setInitialDelay(timeDiff, TimeUnit.MILLISECONDS)
                 .build();
 
-        workManager.enqueue(notificationRequest);
+        workManager.beginUniqueWork(workTag, ExistingWorkPolicy.REPLACE, notificationRequest).enqueue();
     }
 
     public void cancelNotification(int id) {
