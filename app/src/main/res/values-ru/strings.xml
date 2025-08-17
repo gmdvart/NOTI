@@ -33,6 +33,7 @@
         Vestibulum tellus mauris, efficitur in ligula non, ullamcorper accumsan purus. Sed lorem lacus, aliquet vitae
         leo quis, tempor eleifend.
     </string>
+    <!--    Note list screen-->
     <string name="search">Поиск</string>
     <string name="search_hint">Искать Заметки…</string>
     <string name="layout">Изменить Отображение</string>
@@ -44,6 +45,7 @@
     <string name="creation_date">Дате создания</string>
     <string name="alphabet">Алфавиту (от А до Я)</string>
 
+    <!--    Note edit screen-->
     <string name="done">Готово</string>
     <string name="edit_title">Заголовок…</string>
     <string name="edit_description">Описание…</string>
@@ -63,10 +65,17 @@
     <string name="notification_title">Установите дату и время</string>
     <string name="notification_set">Ок</string>
     <string name="notification_cancel">Отмена</string>
+    <string name="notifcation_set_error">Выберите дату в будущем</string>
 
-    <string name="full_date_format">EEE, d MMM \'в\' HH:mm</string>
-    <string name="date_format">EEE, d MMM</string>
+    <!--    String formatting-->
+    <string name="date_format">EEE, d MMM \'в\' HH:mm</string>
+    <string name="day_format">EEE, d MMM</string>
+    <string name="hour_format">HH</string>
+    <string name="minute_format">mm</string>
 
     <string name="notify_on">Уведомить %s</string>
     <string name="created_at">Создано %s</string>
+
+    <!--    Notification-->
+    <string name="notifcation_channel_name">Уведомления NOTI</string>
 </resources>

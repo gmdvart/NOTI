@@ -33,6 +33,7 @@
         Vestibulum tellus mauris, efficitur in ligula non, ullamcorper accumsan purus. Sed lorem lacus, aliquet vitae
         leo quis, tempor eleifend.
     </string>
+    <!--    Note list screen-->
     <string name="search">Search</string>
     <string name="search_hint">Search for Notes…</string>
     <string name="layout">Change Layout</string>
@@ -44,10 +45,11 @@
     <string name="creation_date">Creation date</string>
     <string name="alphabet">A to Z</string>
 
+    <!--    Note edit screen-->
     <string name="done">Done</string>
     <string name="edit_title">Title…</string>
     <string name="edit_description">Description…</string>
-    <string name="note_title">Note Title</string>
+    <string name="note_title">Title</string>
     <string name="description">Description</string>
     <string name="add_note">Add note</string>
 
@@ -63,10 +65,17 @@
     <string name="notification_title">Set a day and time</string>
     <string name="notification_set">Set</string>
     <string name="notification_cancel">Cancel</string>
+    <string name="notifcation_set_error">Pick date within future</string>
 
-    <string name="full_date_format">EEE, MMM d \'at\' HH:mm</string>
-    <string name="date_format">EEE, MMM d</string>
+    <!--    String formatting-->
+    <string name="date_format">EEE, MMM d \'at\' HH:mm</string>
+    <string name="day_format">EEE, MMM d</string>
+    <string name="hour_format">HH</string>
+    <string name="minute_format">mm</string>
 
-    <string name="notify_on">Notify %s</string>
+    <string name="notify_on">Notify on %s</string>
     <string name="created_at">Created %s</string>
+
+<!--    Notification-->
+    <string name="notifcation_channel_name">NOTI notifications</string>
 </resources>

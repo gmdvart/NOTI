@@ -1,4 +1,4 @@
-package com.example.noteapplication.constants;
+package com.example.noteapplication.ui.constants;
 
 public final class NotePreferences {
     public static final String LAYOUT_PREFERENCES_NAME = "layout_type_preference";

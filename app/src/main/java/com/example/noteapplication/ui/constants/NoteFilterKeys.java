@@ -1,4 +1,4 @@
-package com.example.noteapplication.constants;
+package com.example.noteapplication.ui.constants;
 
 public final class NoteFilterKeys {
     public static final int DEFAULT = 0;

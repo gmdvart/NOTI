@@ -6,7 +6,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="?attr/colorSurface"
-        tools:context=".ui.fragments.NoteEditFragment">
+        tools:context=".ui.note_edit_screen.NoteEditFragment">
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
             android:id="@+id/edit_top_appbar"
@@ -21,7 +21,6 @@
 
             <com.google.android.material.appbar.MaterialToolbar
                     android:id="@+id/edit_toolbar"
-                    app:title=" "
                     android:layout_width="match_parent"
                     android:layout_height="?attr/actionBarSize"
                     app:navigationIcon="@drawable/ic_back"
@@ -83,7 +82,7 @@
                 android:layout_gravity="center"/>
 
         <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/note_edit_date_layout"
+                android:id="@+id/note_edit_n_otifcation_date_layout"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:hint="@string/notification_field"

@@ -8,7 +8,7 @@ import androidx.room.RoomDatabase;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-@Database(entities = {Note.class}, version = 2, exportSchema = false)
+@Database(entities = {Note.class}, version = 1, exportSchema = false)
 abstract public class NoteDatabase extends RoomDatabase {
     public abstract NoteDao getDao();
 
@@ -23,7 +23,7 @@ abstract public class NoteDatabase extends RoomDatabase {
         if (INSTANCE == null) {
             synchronized (NoteDatabase.class) {
                 if (INSTANCE == null) {
-                    INSTANCE = Room.databaseBuilder(context, NoteDatabase.class, "note_database")
+                    INSTANCE = Room.databaseBuilder(context, NoteDatabase.class, "note_db")
                             .fallbackToDestructiveMigration()
                             .build();
                 }

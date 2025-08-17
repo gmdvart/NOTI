@@ -1,26 +1,17 @@
-package com.example.noteapplication.ui.adapter;
+package com.example.noteapplication.ui.note_list_screen.components;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Filter;
-import android.widget.Filterable;
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
-import com.example.noteapplication.R;
-import com.example.noteapplication.constants.NoteNotificationsKeys;
 import com.example.noteapplication.data.database.Note;
 import com.example.noteapplication.databinding.NoteListItemBinding;
-import com.example.noteapplication.utils.NoteUtils;
+import com.example.noteapplication.ui.utils.NoteUtils;
 import org.jetbrains.annotations.NotNull;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class NoteListAdapter extends ListAdapter<Note, NoteListAdapter.NoteViewHolder> {
     private final OnNoteClickListener onNoteClickListener;
@@ -43,24 +34,20 @@ public class NoteListAdapter extends ListAdapter<Note, NoteListAdapter.NoteViewH
         public void bind(Note note) {
             binding.noteIndicator.setImageResource(
                     NoteUtils.ImportanceSelection.getImageResourceForImportanceByLevel(
-                            NoteUtils.ImportanceSelection.getImportanceLevel(note.importanceLevel)
+                        note.importanceLevel
                     )
             );
 
-            if (note.notificationDate != NoteNotificationsKeys.WITHOUT_NOTIFICATION) {
-                String formattedNotificationDate = NoteUtils.DateManipulator.getFormattedDisplayedDate(context, note.notificationDate * 1000L);
-                String notificationText = context.getString(R.string.notify_on, formattedNotificationDate);
-                binding.noteNotifyDate.setText(notificationText);
+            if (note.notificationDate != 0L) {
+                binding.noteNotifyDate.setText(NoteUtils.DateManipulator.getForamttedNotificationDateString(context, note.notificationDate));
                 binding.noteNotifyDate.setVisibility(View.VISIBLE);
-            } else
+            } else {
                 binding.noteNotifyDate.setVisibility(View.GONE);
+            }
 
             binding.noteTitle.setText(note.title);
             binding.noteDescription.setText(note.description);
-
-            String formattedCreationDate = NoteUtils.DateManipulator.getFormattedDisplayedDate(context, note.creationDate * 1000L);
-            String creationText = context.getString(R.string.created_at, formattedCreationDate);
-            binding.noteCreationDate.setText(creationText);
+            binding.noteCreationDate.setText(NoteUtils.DateManipulator.getForamttedCreationDateString(context, note.creationDate));
         }
     }
 
@@ -74,18 +61,10 @@ public class NoteListAdapter extends ListAdapter<Note, NoteListAdapter.NoteViewH
     @Override
     public void onBindViewHolder(@NotNull NoteViewHolder holder, int position) {
         Note currentNote = getItem(position);
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                onNoteClickListener.onClick(currentNote.id);
-            }
-        });
-        holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View view) {
-                onNoteClickListener.onLongClick(currentNote, view);
-                return true;
-            }
+        holder.itemView.setOnClickListener(view -> onNoteClickListener.onClick(currentNote.id));
+        holder.itemView.setOnLongClickListener(view -> {
+            onNoteClickListener.onLongClick(currentNote, view);
+            return true;
         });
         holder.bind(currentNote);
     }
@@ -98,13 +77,14 @@ public class NoteListAdapter extends ListAdapter<Note, NoteListAdapter.NoteViewH
 
         @Override
         public boolean areContentsTheSame(@NotNull Note oldItem, @NotNull Note newItem) {
-            return oldItem.title.equals(newItem.title) && oldItem.description.equals(newItem.description);
+            return oldItem.title.equals(newItem.title)
+                    && oldItem.description.equals(newItem.description)
+                    && oldItem.notificationDate == newItem.notificationDate;
         }
     };
 
     public interface OnNoteClickListener {
         void onClick(int noteId);
-
         void onLongClick(Note note, View anchor);
     }
 }
