@@ -1,5 +1,7 @@
 package com.example.noteapplication.ui.note_edit_screen;
 
+import android.Manifest;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -8,7 +10,9 @@ import android.widget.*;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 import androidx.core.view.MenuProvider;
+import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.ViewModelProvider;
@@ -80,8 +84,9 @@ public class NoteEditFragment extends Fragment implements MenuProvider {
 
     private void setUpNotificationDateField() {
         _binding.noteEditNotificationDate.setOnClickListener(view -> {
-            NoteNotificationDialogFragment dialog = new NoteNotificationDialogFragment();
-            dialog.show(requireActivity().getSupportFragmentManager(), NoteNotificationDialogFragment.TAG);
+            boolean isPermissionGranted = ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.POST_NOTIFICATIONS) == PackageManager.PERMISSION_GRANTED;
+            DialogFragment dialog = isPermissionGranted ? new NoteNotificationDialogFragment() : new NotePermissionDialogFragment();
+            dialog.show(requireActivity().getSupportFragmentManager(), dialog.getTag());
         });
 
         viewModel.notificationDateInMillis.observe(getViewLifecycleOwner(), notificationDateInMillis -> {
@@ -90,7 +95,7 @@ public class NoteEditFragment extends Fragment implements MenuProvider {
         });
         viewModel.notificationDateSetError.observe(getViewLifecycleOwner(), isError -> {
             _binding.noteEditNOtifcationDateLayout.setErrorEnabled(isError);
-            _binding.noteEditNOtifcationDateLayout.setError(isError ? getString(R.string.notifcation_set_error) : null);
+            _binding.noteEditNOtifcationDateLayout.setError(isError ? getString(R.string.notification_set_error) : null);
         });
     }
 

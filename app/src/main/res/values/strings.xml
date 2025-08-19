@@ -65,7 +65,7 @@
     <string name="notification_title">Set a day and time</string>
     <string name="notification_set">Set</string>
     <string name="notification_cancel">Cancel</string>
-    <string name="notifcation_set_error">Pick date within future</string>
+    <string name="notification_set_error">Pick date within future</string>
 
     <!--    String formatting-->
     <string name="date_format">EEE, MMM d \'at\' HH:mm</string>
@@ -76,6 +76,13 @@
     <string name="notify_on">Notify on %s</string>
     <string name="created_at">Created %s</string>
 
-<!--    Notification-->
+    <!--    Notification permssion-->
     <string name="notifcation_channel_name">NOTI notifications</string>
+    <string name="notification_permission_required">Please allow post notifications permission</string>
+    <string name="notification_permission_info">NOTI requires post notifications permission from the user othrerwise app
+        just could not sent you a scheduled notifications from notes.
+    </string>
+    <string name="notification_permission_title">Permission required</string>
+    <string name="notification_permission_allow">Allow</string>
+    <string name="notification_permission_deny">Deny</string>
 </resources>

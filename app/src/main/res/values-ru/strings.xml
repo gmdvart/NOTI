@@ -65,7 +65,7 @@
     <string name="notification_title">Установите дату и время</string>
     <string name="notification_set">Ок</string>
     <string name="notification_cancel">Отмена</string>
-    <string name="notifcation_set_error">Выберите дату в будущем</string>
+    <string name="notification_set_error">Выберите дату в будущем</string>
 
     <!--    String formatting-->
     <string name="date_format">EEE, d MMM \'в\' HH:mm</string>
@@ -76,6 +76,13 @@
     <string name="notify_on">Уведомить %s</string>
     <string name="created_at">Создано %s</string>
 
-    <!--    Notification-->
+    <!--    Notification permission-->
     <string name="notifcation_channel_name">Уведомления NOTI</string>
+    <string name="notification_permission_required">Пожалуйста, разрешите доступ к уведомлениям</string>
+    <string name="notification_permission_info">NOTI требует разрешения на отправление уведомлений, в противном случае
+        приложение не сможет отправлять запланированные уведомления от заметок.
+    </string>
+    <string name="notification_permission_title">Требуется разрешение</string>
+    <string name="notification_permission_allow">Разрешить</string>
+    <string name="notification_permission_deny">Отказать</string>
 </resources>

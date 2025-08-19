@@ -1,5 +1,9 @@
 package com.example.noteapplication.ui;
 
+import android.Manifest;
+import android.widget.Toast;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import androidx.core.splashscreen.SplashScreen;
@@ -16,7 +20,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        SplashScreen splashScreen = SplashScreen.installSplashScreen(this);
+        SplashScreen.installSplashScreen(this);
 
         super.onCreate(savedInstanceState);
         setContentView(ActivityMainBinding.inflate(getLayoutInflater()).getRoot());
@@ -25,6 +29,19 @@ public class MainActivity extends AppCompatActivity {
 
         NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment);
         _navController = navHostFragment.getNavController();
+
+        requestPermissions();
+    }
+
+    private void requestPermissions() {
+        ActivityResultLauncher<String> activityResultLauncher = registerForActivityResult(
+                new ActivityResultContracts.RequestPermission(),
+                isPermitted -> {
+                    if (!isPermitted)
+                        Toast.makeText(this, getString(R.string.notification_permission_required), Toast.LENGTH_SHORT).show();
+                }
+        );
+        activityResultLauncher.launch(Manifest.permission.POST_NOTIFICATIONS);
     }
 
     @Override

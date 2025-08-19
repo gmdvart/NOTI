@@ -38,8 +38,6 @@ dependencies {
     implementation 'com.google.android.material:material:1.9.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     implementation 'androidx.recyclerview:recyclerview:1.3.0'
-    // WorkManager
-    implementation "androidx.work:work-runtime:2.8.1"
     // ViewModel
     implementation "androidx.lifecycle:lifecycle-viewmodel:2.5.1"
     // LiveData
@@ -52,15 +50,7 @@ dependencies {
     implementation "androidx.navigation:navigation-fragment:2.5.3"
     // SplashScreen
     implementation "androidx.core:core-splashscreen:1.0.0-beta02"
-    // Gson
-    implementation 'com.google.code.gson:gson:2.10.1'
-
-    testImplementation 'junit:junit:4.13.2'
-    // Room testing
-    testImplementation 'androidx.room:room-testing:2.5.1'
-
-    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
-    // Navigation testing
-    androidTestImplementation 'androidx.navigation:navigation-testing:2.5.3'
+    // Dagger2
+    implementation "com.google.dagger:dagger:2.57"
+    annotationProcessor "com.google.dagger:dagger-compiler:2.57"
 }
