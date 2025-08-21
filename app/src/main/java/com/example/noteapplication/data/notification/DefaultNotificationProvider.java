@@ -11,17 +11,20 @@ import androidx.core.app.NotificationManagerCompat;
 import com.example.noteapplication.R;
 import com.example.noteapplication.domain.notification.NotificationProvider;
 
+import javax.inject.Inject;
+
 public class DefaultNotificationProvider implements NotificationProvider {
 
     private static final String CHANNEL_ID = "com.example.noteapplication.NOTIFICATION_CHANNEL";
     private final Context context;
 
+    @Inject
     public DefaultNotificationProvider(Context context) {
         this.context = context;
     }
 
     @Override
-    public void create(int id, String title, String text) {
+    public void create(int notificationId, String title, String text) {
         NotificationChannel channel = new NotificationChannel(
                 CHANNEL_ID,
                 context.getString(R.string.notifcation_channel_name),
@@ -39,6 +42,6 @@ public class DefaultNotificationProvider implements NotificationProvider {
         builder.setPriority(NotificationCompat.PRIORITY_DEFAULT);
 
         if (ActivityCompat.checkSelfPermission(context, Manifest.permission.POST_NOTIFICATIONS) == PackageManager.PERMISSION_GRANTED)
-            NotificationManagerCompat.from(context).notify(id, builder.build());
+            NotificationManagerCompat.from(context).notify(notificationId, builder.build());
     }
 }

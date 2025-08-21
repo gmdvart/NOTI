@@ -13,10 +13,17 @@ import androidx.navigation.fragment.NavHostFragment;
 import com.example.noteapplication.R;
 import com.example.noteapplication.databinding.ActivityMainBinding;
 import com.example.noteapplication.ui.note_edit_screen.NoteEditViewModel;
+import dagger.android.AndroidInjection;
+import dagger.android.support.DaggerAppCompatActivity;
 
-public class MainActivity extends AppCompatActivity {
+import javax.inject.Inject;
+
+public class MainActivity extends DaggerAppCompatActivity {
+
     private NavController _navController;
+
     private NoteEditViewModel viewModel;
+    @Inject NoteEditViewModel.Factory factory;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(ActivityMainBinding.inflate(getLayoutInflater()).getRoot());
 
-        viewModel = new ViewModelProvider(this, ViewModelProvider.Factory.from(NoteEditViewModel.initializer)).get(NoteEditViewModel.class);
+        viewModel = new ViewModelProvider(this, factory).get(NoteEditViewModel.class);
 
         NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment);
         _navController = navHostFragment.getNavController();

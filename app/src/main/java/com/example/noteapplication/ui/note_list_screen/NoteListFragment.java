@@ -15,10 +15,9 @@ import androidx.core.view.MenuProvider;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Lifecycle;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.navigation.NavAction;
 import androidx.navigation.NavController;
-import androidx.navigation.NavDirections;
 import androidx.navigation.fragment.NavHostFragment;
+import com.example.noteapplication.NoteApplication;
 import com.example.noteapplication.R;
 import com.example.noteapplication.ui.constants.NoteFilterKeys;
 import com.example.noteapplication.ui.constants.NotePreferences;
@@ -27,24 +26,29 @@ import com.example.noteapplication.databinding.FragmentNoteListBinding;
 import com.example.noteapplication.ui.note_list_screen.components.NoteListAdapter;
 import com.example.noteapplication.ui.note_list_screen.components.NoteListViewController;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import dagger.android.support.DaggerFragment;
 import org.jetbrains.annotations.NotNull;
 
-public class NoteListFragment extends Fragment implements MenuProvider, PopupMenu.OnMenuItemClickListener {
-    private static final String TAG = "NoteListFragment";
+import javax.inject.Inject;
+
+public class NoteListFragment extends DaggerFragment implements MenuProvider, PopupMenu.OnMenuItemClickListener {
 
     private FragmentNoteListBinding _binding;
-    public FragmentNoteListBinding getBinding() {
-        return _binding;
-    }
 
     private NavController navController;
 
     private NoteListViewModel viewModel;
+    @Inject NoteListViewModel.Factory factory;
 
     private boolean isGridLayoutEnabled;
     private SharedPreferences.Editor layoutPreferencesEditor;
 
     private NoteListViewController noteListViewController;
+
+    @Override
+    public void onAttach(@NotNull Context context) {
+        super.onAttach(context);
+    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -64,7 +68,7 @@ public class NoteListFragment extends Fragment implements MenuProvider, PopupMen
                 .findFragmentById(R.id.nav_host_fragment);
         navController = navHostFragment.getNavController();
 
-        viewModel = new ViewModelProvider(this, ViewModelProvider.Factory.from(NoteListViewModel.initializer)).get(NoteListViewModel.class);
+        viewModel = new ViewModelProvider(this, factory).get(NoteListViewModel.class);
 
         return _binding.getRoot();
     }

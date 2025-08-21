@@ -2,9 +2,7 @@ package com.example.noteapplication.ui.note_edit_screen;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.Settings;
@@ -16,7 +14,6 @@ import com.example.noteapplication.databinding.FragmentNotePermissionBinding;
 import org.jetbrains.annotations.NotNull;
 
 public class NotePermissionDialogFragment extends DialogFragment {
-    public static final String TAG = "NotePermissionDialogFragment";
 
     @NotNull
     @Override

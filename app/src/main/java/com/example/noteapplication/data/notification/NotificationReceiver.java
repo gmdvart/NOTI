@@ -1,33 +1,33 @@
 package com.example.noteapplication.data.notification;
 
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import com.example.noteapplication.NoteApplication;
 import com.example.noteapplication.data.database.Note;
-import com.example.noteapplication.data.repository.DefaultNoteRepository;
-import com.example.noteapplication.di.ApplicationComponent;
 import com.example.noteapplication.domain.notification.NotificationProvider;
+import com.example.noteapplication.domain.repository.NoteRepository;
+import dagger.android.DaggerBroadcastReceiver;
 
-public class NotificationReceiver extends BroadcastReceiver {
+import javax.inject.Inject;
+
+public class NotificationReceiver extends DaggerBroadcastReceiver {
 
     public final static String ACTION_NOTIFY_USER = "com.example.noteapplication.ACTION_NOTIFY_USER";
     public final static String NOTE_ID_KEY = "com.example.noteapplication.NOTE_ID_KEY";
 
+    // TODO : Consider how to inject this fields with Dagger
+
+    @Inject NoteRepository noteRepository;
+    @Inject NotificationProvider notificationProvider;
+
     @Override
     public void onReceive(@NonNull Context context, @Nullable Intent intent) {
-        Log.d(getClass().getSimpleName(), "Received intent");
+        super.onReceive(context, intent);
 
         if (intent == null) return;
 
         final PendingResult result = goAsync();
-
-        ApplicationComponent applicationComponent = ((NoteApplication) context.getApplicationContext()).getAppComponent();
-        DefaultNoteRepository noteRepository = (DefaultNoteRepository) applicationComponent.getNoteRepository();
-        NotificationProvider notificationProvider = applicationComponent.getNotificationProvider();
 
         // Step 1: Extract note from repository
         int noteId = intent.getIntExtra(NOTE_ID_KEY, -1);

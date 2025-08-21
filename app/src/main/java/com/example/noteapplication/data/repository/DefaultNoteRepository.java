@@ -3,8 +3,10 @@ package com.example.noteapplication.data.repository;
 import androidx.lifecycle.LiveData;
 import com.example.noteapplication.data.database.Note;
 import com.example.noteapplication.data.database.NoteDao;
+import com.example.noteapplication.data.database.NoteDatabase;
 import com.example.noteapplication.domain.repository.NoteRepository;
 
+import javax.inject.Inject;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Future;
@@ -14,9 +16,10 @@ public class DefaultNoteRepository implements NoteRepository {
     private final NoteDao noteDao;
     private final ExecutorService databaseExecutor;
 
-    public DefaultNoteRepository(NoteDao noteDao, ExecutorService databaseExecutor) {
-        this.noteDao = noteDao;
-        this.databaseExecutor = databaseExecutor;
+    @Inject
+    public DefaultNoteRepository(NoteDatabase noteDatabase) {
+        this.noteDao = noteDatabase.getDao();
+        this.databaseExecutor = NoteDatabase.getDatabaseExecutor();
     }
 
     @Override

@@ -3,14 +3,15 @@ package com.example.noteapplication.ui.note_edit_screen;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
-import androidx.lifecycle.viewmodel.ViewModelInitializer;
-import com.example.noteapplication.NoteApplication;
-import com.example.noteapplication.di.ApplicationComponent;
-import static androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.APPLICATION_KEY;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.example.noteapplication.data.database.Note;
 import com.example.noteapplication.domain.repository.NoteRepository;
 import com.example.noteapplication.domain.repository.NotificationRepository;
+import com.example.noteapplication.ui.note_list_screen.NoteListViewModel;
+import org.jetbrains.annotations.NotNull;
+
+import javax.inject.Inject;
 
 public class NoteEditViewModel extends ViewModel {
 
@@ -161,14 +162,21 @@ public class NoteEditViewModel extends ViewModel {
         final class NavigateBack implements Event {  }
     }
 
-    public static ViewModelInitializer<NoteEditViewModel> initializer = new ViewModelInitializer<>(NoteEditViewModel.class, creationExtras -> {
-        NoteApplication application = ((NoteApplication) creationExtras.get(APPLICATION_KEY));
-        assert application != null;
+    public static class Factory implements ViewModelProvider.Factory {
+        private final NoteRepository noteRepository;
+        private final NotificationRepository notificationRepository;
 
-        ApplicationComponent container = application.getAppComponent();
-        NoteRepository noteRepository = container.getNoteRepository();
-        NotificationRepository notificationRepository = container.getNotificationRepository();
+        @Inject
+        public Factory(NoteRepository noteRepository, NotificationRepository notificationRepository) {
+            this.noteRepository = noteRepository;
+            this.notificationRepository = notificationRepository;
+        }
 
-        return new NoteEditViewModel(noteRepository, notificationRepository);
-    });
+        @NotNull
+        @Override
+        public <T extends ViewModel> T create(@NotNull Class<T> modelClass) {
+            if (modelClass.isAssignableFrom(NoteEditViewModel.class)) return (T) new NoteEditViewModel(noteRepository, notificationRepository);
+            else throw new IllegalArgumentException("An unknown ViewModel class was provided");
+        }
+    }
 }

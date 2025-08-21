@@ -25,12 +25,8 @@ import com.example.noteapplication.ui.utils.NoteUtils;
 import org.jetbrains.annotations.NotNull;
 
 public class NoteEditFragment extends Fragment implements MenuProvider {
-    public static final String TAG = "NoteEditFragment";
 
     private FragmentNoteEditBinding _binding;
-    public FragmentNoteEditBinding getBinding() {
-        return _binding;
-    }
 
     private NavController navController;
     private NoteEditViewModel viewModel;
@@ -46,7 +42,6 @@ public class NoteEditFragment extends Fragment implements MenuProvider {
         viewModel = new ViewModelProvider(requireActivity()).get(NoteEditViewModel.class);
         int noteId = NoteEditFragmentArgs.fromBundle(requireArguments()).getNoteId();
         viewModel.loadNodeById(noteId);
-
 
         return _binding.getRoot();
     }

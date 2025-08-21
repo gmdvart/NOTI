@@ -9,15 +9,18 @@ import com.example.noteapplication.data.notification.NotificationReceiver;
 import com.example.noteapplication.domain.repository.NoteRepository;
 import com.example.noteapplication.domain.repository.NotificationRepository;
 
+import javax.inject.Inject;
+
 public class DefaultNotificationRepository implements NotificationRepository {
 
     private final Context context;
     private final AlarmManager alarmManager;
     private final NoteRepository noteRepository;
 
+    @Inject
     public DefaultNotificationRepository(Context context, NoteRepository noteRepository) {
         this.context = context;
-        this.alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+        this.alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);;
         this.noteRepository = noteRepository;
     }
 

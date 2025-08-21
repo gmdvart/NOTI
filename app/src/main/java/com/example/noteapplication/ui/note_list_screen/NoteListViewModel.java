@@ -1,21 +1,15 @@
 package com.example.noteapplication.ui.note_list_screen;
 
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
-import androidx.lifecycle.Transformations;
-import androidx.lifecycle.ViewModel;
-import androidx.lifecycle.viewmodel.ViewModelInitializer;
-import com.example.noteapplication.NoteApplication;
-import com.example.noteapplication.di.ApplicationComponent;
+import androidx.lifecycle.*;
 import com.example.noteapplication.data.database.Note;
 import com.example.noteapplication.domain.repository.NoteRepository;
 import com.example.noteapplication.domain.repository.NotificationRepository;
 import com.example.noteapplication.ui.constants.NoteFilterKeys;
+import org.jetbrains.annotations.NotNull;
 
+import javax.inject.Inject;
 import java.util.Collections;
 import java.util.List;
-
-import static androidx.lifecycle.ViewModelProvider.AndroidViewModelFactory.APPLICATION_KEY;
 
 public class NoteListViewModel extends ViewModel {
 
@@ -108,14 +102,21 @@ public class NoteListViewModel extends ViewModel {
         }
     }
 
-    public static ViewModelInitializer<NoteListViewModel> initializer = new ViewModelInitializer<>(NoteListViewModel.class, creationExtras -> {
-        NoteApplication application = (NoteApplication) creationExtras.get(APPLICATION_KEY);
-        assert application != null;
+    public static class Factory implements ViewModelProvider.Factory {
+        private final NoteRepository noteRepository;
+        private final NotificationRepository notificationRepository;
 
-        ApplicationComponent appComponent = application.getAppComponent();
-        NoteRepository noteRepository = appComponent.getNoteRepository();
-        NotificationRepository notificationRepository = appComponent.getNotificationRepository();
+        @Inject
+        public Factory(NoteRepository noteRepository, NotificationRepository notificationRepository) {
+            this.noteRepository = noteRepository;
+            this.notificationRepository = notificationRepository;
+        }
 
-        return new NoteListViewModel(noteRepository, notificationRepository);
-    });
+        @NotNull
+        @Override
+        public <T extends ViewModel> T create(@NotNull Class<T> modelClass) {
+            if (modelClass.isAssignableFrom(NoteListViewModel.class)) return (T) new NoteListViewModel(noteRepository, notificationRepository);
+            else throw new IllegalArgumentException("An unknown ViewModel class was provided");
+        }
+    }
 }

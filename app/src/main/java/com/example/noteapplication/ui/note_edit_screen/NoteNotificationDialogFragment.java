@@ -2,30 +2,21 @@ package com.example.noteapplication.ui.note_edit_screen;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.content.DialogInterface;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import com.example.noteapplication.R;
 import com.example.noteapplication.databinding.FragmentNotificationDialogBinding;
-import com.example.noteapplication.ui.note_edit_screen.components.DatePickerManager;
 import com.example.noteapplication.ui.note_edit_screen.components.DatePickerViewController;
-import org.jetbrains.annotations.NotNull;
 
 public class NoteNotificationDialogFragment extends DialogFragment {
-    public static final String TAG = "NotificationDialogFragment";
 
     private FragmentNotificationDialogBinding _binding;
-    public FragmentNotificationDialogBinding getBinding() {
-        return _binding;
-    }
 
     private NoteEditViewModel viewModel;
 
