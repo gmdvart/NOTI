@@ -13,10 +13,7 @@ import javax.inject.Inject;
 
 public class NotificationReceiver extends DaggerBroadcastReceiver {
 
-    public final static String ACTION_NOTIFY_USER = "com.example.noteapplication.ACTION_NOTIFY_USER";
     public final static String NOTE_ID_KEY = "com.example.noteapplication.NOTE_ID_KEY";
-
-    // TODO : Consider how to inject this fields with Dagger
 
     @Inject NoteRepository noteRepository;
     @Inject NotificationProvider notificationProvider;
